@@ -1,0 +1,8 @@
+name: Exposed
+author: Nathan Fallet
+main: me.nathanfallet.zabricraft.Exposed
+load: STARTUP
+loadbefore:
+  - Core
+version: 1.0.0
+api-version: 1.20

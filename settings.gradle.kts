@@ -11,4 +11,13 @@ plugins {
 
 rootProject.name = "zabricraft"
 includeBuild("convention-plugins")
+
+include(":zabricraft-usecases")
+include(":zabricraft-datetime")
+include(":zabricraft-bcrypt")
+include(":zabricraft-exposed")
+include(":zabricraft-mysql")
+include(":zabricraft-koin")
+include(":zabricraft-runtime")
+
 include(":zabricraft-core")
