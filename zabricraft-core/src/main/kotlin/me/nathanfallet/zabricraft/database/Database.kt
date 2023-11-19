@@ -29,6 +29,8 @@ class Database(
         }
     }
 
+    fun disconnect() = database.connector().close()
+
     fun <T> dbQuery(block: () -> T): T = transaction(database) { block() }
 
 }

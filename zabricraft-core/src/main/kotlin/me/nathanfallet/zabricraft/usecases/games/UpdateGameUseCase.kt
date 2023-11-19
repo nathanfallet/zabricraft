@@ -4,14 +4,12 @@ import me.nathanfallet.zabricraft.models.games.GameState
 import me.nathanfallet.zabricraft.models.games.IGame
 import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.players.IGetBukkitPlayerUseCase
-import me.nathanfallet.zabricraft.usecases.players.IGetZabriPlayerUseCase
 import org.bukkit.Material
 import org.bukkit.block.Sign
 
 class UpdateGameUseCase(
     private val getSetMessageUseCase: IGetSetMessageUseCase,
-    private val getBukkitPlayerUseCase: IGetBukkitPlayerUseCase,
-    private val getZabriPlayerUseCase: IGetZabriPlayerUseCase
+    private val getBukkitPlayerUseCase: IGetBukkitPlayerUseCase
 ) : IUpdateGameUseCase {
 
     private val countdown = 60
@@ -49,21 +47,6 @@ class UpdateGameUseCase(
                         )
                     }
                 }
-            }
-        }
-        val lines = listOf(
-            "§b",
-            "§b§l" + getSetMessageUseCase("sb-players"),
-            "§f${players.size}/${input.maxPlayers}",
-            "§a",
-            "§a§l" + getSetMessageUseCase("sb-status"),
-            "§f" + getSetMessageUseCase(input.state.key).replace("%d", input.currentCountValue.toString()),
-            "§e",
-            "§e§lPlugin by Nathan Fallet"
-        )
-        input.allPlayers.forEach {
-            getBukkitPlayerUseCase(it)?.let { player ->
-                getZabriPlayerUseCase(it)?.scoreboard?.update(player, lines)
             }
         }
         val i = input.signs.iterator()

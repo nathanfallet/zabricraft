@@ -23,12 +23,6 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    private fun getOrCreateCached(id: UUID): CachedPlayer {
-        return cachedPlayers.getOrPut(id) {
-            CachedPlayer(!Bukkit.getOnlineMode(), Clock.System.now())
-        }
-    }
-
     override fun create(payload: Player): ZabriPlayer? {
         return database.dbQuery {
             ZabriPlayers.insert {
@@ -36,7 +30,7 @@ class DatabaseZabriPlayersRepository(
                 it[name] = payload.name
             }
         }.resultedValues?.map {
-            ZabriPlayers.toZabriPlayer(it, getOrCreateCached(it[ZabriPlayers.id].value))
+            ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
         }?.singleOrNull()
     }
 
@@ -53,9 +47,19 @@ class DatabaseZabriPlayersRepository(
             ZabriPlayers
                 .select { ZabriPlayers.id eq id }
                 .map {
-                    ZabriPlayers.toZabriPlayer(it, getOrCreateCached(it[ZabriPlayers.id].value))
+                    ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
                 }
                 .singleOrNull()
+        }
+    }
+
+    override fun getAll(): List<ZabriPlayer> {
+        return database.dbQuery {
+            ZabriPlayers
+                .selectAll()
+                .map {
+                    ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
+                }
         }
     }
 
@@ -70,6 +74,16 @@ class DatabaseZabriPlayersRepository(
                 payload.admin?.let { value -> it[admin] = value }
             }
         } == 1
+    }
+
+    override fun getCached(uuid: UUID): CachedPlayer {
+        return cachedPlayers.getOrPut(uuid) {
+            CachedPlayer(Bukkit.getOnlineMode(), Clock.System.now())
+        }
+    }
+
+    override fun updateCached(uuid: UUID, cachedPlayer: CachedPlayer) {
+        cachedPlayers[uuid] = cachedPlayer
     }
 
     override fun clearCache() {

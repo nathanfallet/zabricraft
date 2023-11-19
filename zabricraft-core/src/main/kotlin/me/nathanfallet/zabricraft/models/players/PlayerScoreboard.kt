@@ -7,12 +7,11 @@ import org.bukkit.scoreboard.DisplaySlot
 import org.bukkit.scoreboard.Objective
 
 data class PlayerScoreboard(
-    var objective: Objective?,
-    var lastLines: List<String>,
     val name: String
 ) {
 
-    constructor(name: String) : this(null, listOf(), name)
+    private var objective: Objective? = null
+    private var lastLines: List<String> = listOf()
 
     val active: Boolean
         get() = objective != null

@@ -3,15 +3,19 @@ package me.nathanfallet.zabricraft.di
 import me.nathanfallet.usecases.models.get.GetModelFromRepositoryUseCase
 import me.nathanfallet.usecases.models.get.IGetModelUseCase
 import me.nathanfallet.zabricraft.Core
+import me.nathanfallet.zabricraft.commands.auth.LoginCommand
+import me.nathanfallet.zabricraft.commands.auth.RegisterCommand
 import me.nathanfallet.zabricraft.commands.spawn.SetSpawnCommand
 import me.nathanfallet.zabricraft.commands.spawn.SpawnCommand
 import me.nathanfallet.zabricraft.database.Database
 import me.nathanfallet.zabricraft.database.players.DatabaseZabriPlayersRepository
+import me.nathanfallet.zabricraft.events.auth.PlayerAuthentication
 import me.nathanfallet.zabricraft.events.players.PlayerJoin
 import me.nathanfallet.zabricraft.events.players.PlayerQuit
 import me.nathanfallet.zabricraft.events.players.PlayerRespawn
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import me.nathanfallet.zabricraft.repositories.players.IZabriPlayersRepository
+import me.nathanfallet.zabricraft.usecases.auth.*
 import me.nathanfallet.zabricraft.usecases.core.GetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.games.*
@@ -51,32 +55,43 @@ object ZabriKoin {
             single<IZabriPlayersRepository> { DatabaseZabriPlayersRepository(get()) }
         }
         val useCaseModule = module {
+            single<IHashPasswordUseCase> { HashPasswordUseCase() }
+            single<IVerifyPasswordUseCase> { VerifyPasswordUseCase() }
+            single<IAuthenticatePlayerUseCase> { AuthenticatePlayerUseCase(get(), get(), get()) }
+
             single<IGetSetMessageUseCase> { GetSetMessageUseCase() }
 
+            single<IGetAddGamesUseCase> { GetAddGamesUseCase() }
             single<IGetSignsUseCase> { GetSignsUseCase(get(named<Core>())) }
             single<ISaveSignsUseCase> { SaveSignsUseCase(get(named<Core>())) }
             single<IJoinGameUseCase> { JoinGameUseCase(get()) }
-            single<IUpdateGameUseCase> { UpdateGameUseCase(get(), get(), get()) }
+            single<IUpdateGameUseCase> { UpdateGameUseCase(get(), get()) }
 
             single<IGetLeaderboardsUseCase> { GetLeaderboardsUseCase(get(named<Core>())) }
             single<ISaveLeaderboardsUseCase> { SaveLeaderboardsUseCase(get(named<Core>()), get()) }
 
             single<IGetBukkitPlayerByNameUseCase> { GetBukkitPlayerByNameUseCase() }
             single<IGetBukkitPlayerUseCase> { GetBukkitPlayerUseCase() }
+            single<IGetZabriPlayersUseCase> { GetZabriPlayersUseCase(get()) }
             single<IGetModelUseCase<ZabriPlayer, UUID>>(named<ZabriPlayer>()) {
                 GetModelFromRepositoryUseCase(get<IZabriPlayersRepository>())
             }
             single<ICreateUpdateZabriPlayerUseCase> { CreateUpdateZabriPlayerUseCase(get()) }
+            single<IGetCachedZabriPlayerUseCase> { GetCachedZabriPlayerUseCase(get()) }
+            single<IUpdateOnlinePlayersUseCase> { UpdateOnlinePlayersUseCase(get(named<Core>()), get()) }
             single<IClearZabriPlayersCacheUseCase> { ClearZabriPlayersCacheUseCase(get()) }
             single<IClearZabriPlayerCacheUseCase> { ClearZabriPlayerCacheUseCase(get()) }
 
             single<IGetSetSpawnUseCase> { GetSetSpawnUseCase(get(named<Core>())) }
         }
         val commandModule = module {
+            single { LoginCommand(get(named<ZabriPlayer>()), get()) }
+            single { RegisterCommand(get(named<ZabriPlayer>()), get()) }
             single { SpawnCommand(get(), get()) }
             single { SetSpawnCommand(get()) }
         }
         val eventModule = module {
+            single { PlayerAuthentication(get()) }
             single { PlayerJoin(get(), get()) }
             single { PlayerQuit(get()) }
             single { PlayerRespawn(get()) }

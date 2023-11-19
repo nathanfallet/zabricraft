@@ -21,6 +21,7 @@ interface IGame {
     fun mainHandler()
     fun start()
     fun stop()
+    fun reset()
     fun join(player: Player, zabriPlayer: ZabriPlayer)
 
 }
