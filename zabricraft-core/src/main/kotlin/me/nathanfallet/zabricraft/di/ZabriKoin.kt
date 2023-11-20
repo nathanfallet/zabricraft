@@ -13,9 +13,9 @@ import me.nathanfallet.zabricraft.database.Database
 import me.nathanfallet.zabricraft.database.players.DatabaseZabriPlayersRepository
 import me.nathanfallet.zabricraft.events.auth.PlayerAuthentication
 import me.nathanfallet.zabricraft.events.core.ServerPing
-import me.nathanfallet.zabricraft.events.core.WorldProtection
 import me.nathanfallet.zabricraft.events.games.SignChange
 import me.nathanfallet.zabricraft.events.players.*
+import me.nathanfallet.zabricraft.events.rules.WorldProtection
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import me.nathanfallet.zabricraft.repositories.players.IZabriPlayersRepository
 import me.nathanfallet.zabricraft.usecases.auth.*
@@ -24,6 +24,12 @@ import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.games.*
 import me.nathanfallet.zabricraft.usecases.leaderboards.*
 import me.nathanfallet.zabricraft.usecases.players.*
+import me.nathanfallet.zabricraft.usecases.rules.GetWorldProtectionRulesUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IGetWorldProtectionRulesUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IWorldProtectionRuleUseCase
+import me.nathanfallet.zabricraft.usecases.rules.SpawnProtectionWorldProtectionRuleUseCase
+import me.nathanfallet.zabricraft.usecases.scoreboards.GetGenerateScoreboardsUseCase
+import me.nathanfallet.zabricraft.usecases.scoreboards.IGetGenerateScoreboardsUseCase
 import me.nathanfallet.zabricraft.usecases.spawn.GetSetSpawnUseCase
 import me.nathanfallet.zabricraft.usecases.spawn.IGetSetSpawnUseCase
 import org.bukkit.plugin.java.JavaPlugin
@@ -83,9 +89,14 @@ object ZabriKoin {
             }
             single<ICreateUpdateZabriPlayerUseCase> { CreateUpdateZabriPlayerUseCase(get()) }
             single<IGetCachedZabriPlayerUseCase> { GetCachedZabriPlayerUseCase(get()) }
-            single<IUpdateOnlinePlayersUseCase> { UpdateOnlinePlayersUseCase(get(named<Core>()), get()) }
+            single<IUpdateOnlinePlayersUseCase> { UpdateOnlinePlayersUseCase(get(named<Core>()), get(), get()) }
             single<IClearZabriPlayersCacheUseCase> { ClearZabriPlayersCacheUseCase(get()) }
             single<IClearZabriPlayerCacheUseCase> { ClearZabriPlayerCacheUseCase(get()) }
+
+            single<IGetWorldProtectionRulesUseCase> { GetWorldProtectionRulesUseCase() }
+            single<IWorldProtectionRuleUseCase>(named("spawn_protection")) { SpawnProtectionWorldProtectionRuleUseCase() }
+
+            single<IGetGenerateScoreboardsUseCase> { GetGenerateScoreboardsUseCase() }
 
             single<IGetSetSpawnUseCase> { GetSetSpawnUseCase(get(named<Core>())) }
         }
@@ -106,7 +117,7 @@ object ZabriKoin {
             single { PlayerRespawn(get()) }
             single { ServerPing(get(named<Core>()), get(), get()) }
             single { SignChange(get()) }
-            single { WorldProtection() }
+            single { WorldProtection(get()) }
         }
 
         modules(

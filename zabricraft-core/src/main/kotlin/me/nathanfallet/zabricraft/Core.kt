@@ -10,9 +10,9 @@ import me.nathanfallet.zabricraft.database.Database
 import me.nathanfallet.zabricraft.di.ZabriKoin
 import me.nathanfallet.zabricraft.events.auth.PlayerAuthentication
 import me.nathanfallet.zabricraft.events.core.ServerPing
-import me.nathanfallet.zabricraft.events.core.WorldProtection
 import me.nathanfallet.zabricraft.events.games.SignChange
 import me.nathanfallet.zabricraft.events.players.*
+import me.nathanfallet.zabricraft.events.rules.WorldProtection
 import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.games.IGetAddGamesUseCase
 import me.nathanfallet.zabricraft.usecases.games.IUpdateGameUseCase
@@ -20,6 +20,9 @@ import me.nathanfallet.zabricraft.usecases.leaderboards.*
 import me.nathanfallet.zabricraft.usecases.players.IClearZabriPlayersCacheUseCase
 import me.nathanfallet.zabricraft.usecases.players.ICreateUpdateZabriPlayerUseCase
 import me.nathanfallet.zabricraft.usecases.players.IUpdateOnlinePlayersUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IGetWorldProtectionRulesUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IWorldProtectionRuleUseCase
+import me.nathanfallet.zabricraft.usecases.scoreboards.IGetGenerateScoreboardsUseCase
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
@@ -58,11 +61,15 @@ class Core : JavaPlugin() {
 
         clearCustomEntities()
 
+        val getWorldProtectionRuleUseCase = get().get<IGetWorldProtectionRulesUseCase>()
+        if (config.getBoolean("server.spawn_protection")) {
+            getWorldProtectionRuleUseCase().add(get().get<IWorldProtectionRuleUseCase>(named("spawn_protection")))
+        }
+
         val getGenerateLeaderboardsUseCase = get().get<IGetGenerateLeaderboardsUseCase>()
         listOf("money", "score", "victories").forEach {
             getGenerateLeaderboardsUseCase()[it] = get().get<IGenerateLeaderboardUseCase>(named(it))
         }
-        // TODO: Other generators
 
         Bukkit.getPluginManager().registerEvents(get().get<PlayerAuthentication>(), this)
         Bukkit.getPluginManager().registerEvents(get().get<PlayerChat>(), this)
@@ -113,9 +120,12 @@ class Core : JavaPlugin() {
         }
         getLeaderboardsUseCase.clear()
 
+        val getWorldProtectionRuleUseCase = get().get<IGetWorldProtectionRulesUseCase>()
         val getGenerateLeaderboardsUseCase = get().get<IGetGenerateLeaderboardsUseCase>()
+        val getGenerateScoreboardsUseCase = get().get<IGetGenerateScoreboardsUseCase>()
+        getWorldProtectionRuleUseCase.clear()
         getGenerateLeaderboardsUseCase.clear()
-        // TODO: Other generators
+        getGenerateScoreboardsUseCase.clear()
 
         val database = get().get<Database>()
         database.disconnect()
