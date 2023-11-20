@@ -30,10 +30,6 @@ if (secretPropsFile.exists()) {
     ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-}
-
 fun getExtraString(name: String) = ext[name]?.toString()
 
 publishing {
@@ -50,9 +46,9 @@ publishing {
     }
 
     // Configure all publications
-    publications.withType<MavenPublication> {
-        // Stub javadoc.jar artifact
-        artifact(javadocJar.get())
+    publications.create<MavenPublication>("jvm") {
+        // Configure publication
+        from(components["java"])
 
         // Provide artifacts information requited by Maven Central
         pom {
