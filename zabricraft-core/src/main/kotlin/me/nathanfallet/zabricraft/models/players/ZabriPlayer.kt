@@ -2,6 +2,7 @@ package me.nathanfallet.zabricraft.models.players
 
 import kotlinx.datetime.Instant
 import me.nathanfallet.usecases.models.IModel
+import me.nathanfallet.usecases.permissions.IPermittee
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -16,4 +17,4 @@ data class ZabriPlayer(
     val authenticated: Boolean,
     val loginAt: Instant,
     val scoreboard: PlayerScoreboard,
-) : IModel<UUID, Player, UpdateZabriPlayerPayload>
+) : IModel<UUID, Player, UpdateZabriPlayerPayload>, IPermittee

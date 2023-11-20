@@ -5,24 +5,24 @@ import me.nathanfallet.usecases.models.get.IGetModelUseCase
 import me.nathanfallet.zabricraft.Core
 import me.nathanfallet.zabricraft.commands.auth.LoginCommand
 import me.nathanfallet.zabricraft.commands.auth.RegisterCommand
+import me.nathanfallet.zabricraft.commands.leaderboards.LeaderboardCommand
+import me.nathanfallet.zabricraft.commands.players.MoneyCommand
 import me.nathanfallet.zabricraft.commands.spawn.SetSpawnCommand
 import me.nathanfallet.zabricraft.commands.spawn.SpawnCommand
 import me.nathanfallet.zabricraft.database.Database
 import me.nathanfallet.zabricraft.database.players.DatabaseZabriPlayersRepository
 import me.nathanfallet.zabricraft.events.auth.PlayerAuthentication
-import me.nathanfallet.zabricraft.events.players.PlayerJoin
-import me.nathanfallet.zabricraft.events.players.PlayerQuit
-import me.nathanfallet.zabricraft.events.players.PlayerRespawn
+import me.nathanfallet.zabricraft.events.core.ServerPing
+import me.nathanfallet.zabricraft.events.core.WorldProtection
+import me.nathanfallet.zabricraft.events.games.SignChange
+import me.nathanfallet.zabricraft.events.players.*
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import me.nathanfallet.zabricraft.repositories.players.IZabriPlayersRepository
 import me.nathanfallet.zabricraft.usecases.auth.*
 import me.nathanfallet.zabricraft.usecases.core.GetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.games.*
-import me.nathanfallet.zabricraft.usecases.leaderboards.GetLeaderboardsUseCase
-import me.nathanfallet.zabricraft.usecases.leaderboards.IGetLeaderboardsUseCase
-import me.nathanfallet.zabricraft.usecases.leaderboards.ISaveLeaderboardsUseCase
-import me.nathanfallet.zabricraft.usecases.leaderboards.SaveLeaderboardsUseCase
+import me.nathanfallet.zabricraft.usecases.leaderboards.*
 import me.nathanfallet.zabricraft.usecases.players.*
 import me.nathanfallet.zabricraft.usecases.spawn.GetSetSpawnUseCase
 import me.nathanfallet.zabricraft.usecases.spawn.IGetSetSpawnUseCase
@@ -67,8 +67,13 @@ object ZabriKoin {
             single<IJoinGameUseCase> { JoinGameUseCase(get()) }
             single<IUpdateGameUseCase> { UpdateGameUseCase(get(), get()) }
 
+            single<IGetGenerateLeaderboardsUseCase> { GetGenerateLeaderboardsUseCase() }
             single<IGetLeaderboardsUseCase> { GetLeaderboardsUseCase(get(named<Core>())) }
             single<ISaveLeaderboardsUseCase> { SaveLeaderboardsUseCase(get(named<Core>()), get()) }
+            single<IUpdateLeaderboardUseCase> { UpdateLeaderboardUseCase(get()) }
+            single<IGenerateLeaderboardUseCase>(named("money")) { GenerateMoneyLeaderboardUseCase(get()) }
+            single<IGenerateLeaderboardUseCase>(named("score")) { GenerateScoreLeaderboardUseCase(get()) }
+            single<IGenerateLeaderboardUseCase>(named("victories")) { GenerateVictoriesLeaderboardUseCase(get()) }
 
             single<IGetBukkitPlayerByNameUseCase> { GetBukkitPlayerByNameUseCase() }
             single<IGetBukkitPlayerUseCase> { GetBukkitPlayerUseCase() }
@@ -87,14 +92,21 @@ object ZabriKoin {
         val commandModule = module {
             single { LoginCommand(get(named<ZabriPlayer>()), get()) }
             single { RegisterCommand(get(named<ZabriPlayer>()), get()) }
+            single { LeaderboardCommand(get(), get()) }
+            single { MoneyCommand(get(named<ZabriPlayer>())) }
             single { SpawnCommand(get(), get()) }
             single { SetSpawnCommand(get()) }
         }
         val eventModule = module {
             single { PlayerAuthentication(get()) }
+            single { PlayerChat() }
+            single { PlayerInteract(get(), get(), get(named<ZabriPlayer>())) }
             single { PlayerJoin(get(), get()) }
             single { PlayerQuit(get()) }
             single { PlayerRespawn(get()) }
+            single { ServerPing(get(named<Core>()), get(), get()) }
+            single { SignChange(get()) }
+            single { WorldProtection() }
         }
 
         modules(

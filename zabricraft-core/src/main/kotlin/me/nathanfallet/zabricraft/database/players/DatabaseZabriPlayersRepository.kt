@@ -63,6 +63,42 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
+    override fun getTopMoney(limit: Int): List<ZabriPlayer> {
+        return database.dbQuery {
+            ZabriPlayers
+                .selectAll()
+                .orderBy(ZabriPlayers.money, SortOrder.DESC)
+                .limit(limit)
+                .map {
+                    ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
+                }
+        }
+    }
+
+    override fun getTopScore(limit: Int): List<ZabriPlayer> {
+        return database.dbQuery {
+            ZabriPlayers
+                .selectAll()
+                .orderBy(ZabriPlayers.score, SortOrder.DESC)
+                .limit(limit)
+                .map {
+                    ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
+                }
+        }
+    }
+
+    override fun getTopVictories(limit: Int): List<ZabriPlayer> {
+        return database.dbQuery {
+            ZabriPlayers
+                .selectAll()
+                .orderBy(ZabriPlayers.victories, SortOrder.DESC)
+                .limit(limit)
+                .map {
+                    ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
+                }
+        }
+    }
+
     override fun update(id: UUID, payload: UpdateZabriPlayerPayload): Boolean {
         return database.dbQuery {
             ZabriPlayers.update({ ZabriPlayers.id eq id }) {

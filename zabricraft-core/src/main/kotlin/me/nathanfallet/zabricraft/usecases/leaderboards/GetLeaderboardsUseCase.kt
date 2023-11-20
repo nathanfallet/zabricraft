@@ -13,7 +13,7 @@ class GetLeaderboardsUseCase(
 
     private var leaderboards: MutableMap<String, Leaderboard>? = null
 
-    override fun invoke(): Map<String, Leaderboard> {
+    override fun invoke(): MutableMap<String, Leaderboard> {
         if (leaderboards == null) {
             leaderboards = mutableMapOf()
             val file = YamlConfiguration.loadConfiguration(File(plugin.dataFolder, "leaderboards.yml"))
