@@ -1,0 +1,14 @@
+# Informations de connexion a la base de donnees
+database:
+  protocol: 'mysql'
+  host: 'localhost'
+  name: 'zabricraft'
+  user: 'user'
+  password: 'password'
+  port: 3306
+
+# Information sur le serveur
+server:
+  name: 'ZabriCraft'
+  ip: 'zabricraft.nathanfallet.me'
+  spawn_protection: false
