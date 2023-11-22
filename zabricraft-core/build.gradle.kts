@@ -25,6 +25,14 @@ kotlin {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
+    implementation("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
+    
     api(project(":zabricraft-runtime"))
+
+    testImplementation(kotlin("test"))
+    testImplementation("io.mockk:mockk:1.13.8")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

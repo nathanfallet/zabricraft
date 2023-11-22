@@ -1,0 +1,8 @@
+name: H2
+author: Nathan Fallet
+main: me.nathanfallet.zabricraft.H2
+load: STARTUP
+loadbefore:
+  - Core
+version: 1.0.0
+api-version: 1.20

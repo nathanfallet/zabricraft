@@ -9,8 +9,8 @@ plugins {
 publishing {
     publications.withType<MavenPublication> {
         pom {
-            name.set("zabricraft-runtime")
-            description.set("Wrapping all dependencies as a plugin.")
+            name.set("zabricraft-h2")
+            description.set("Wrapping h2 as a plugin.")
         }
     }
 }
@@ -26,13 +26,7 @@ kotlin {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    api(project(":zabricraft-usecases"))
-    api(project(":zabricraft-datetime"))
-    api(project(":zabricraft-bcrypt"))
-    api(project(":zabricraft-exposed"))
-    api(project(":zabricraft-mysql"))
-    api(project(":zabricraft-h2"))
-    api(project(":zabricraft-koin"))
+    api("com.h2database:h2:2.2.224")
 }
 
 tasks.jar {
