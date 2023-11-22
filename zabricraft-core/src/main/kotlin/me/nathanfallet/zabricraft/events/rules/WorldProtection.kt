@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.events.rules
 
-import me.nathanfallet.zabricraft.usecases.rules.IGetWorldProtectionRulesUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IListWorldProtectionRuleUseCase
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -16,11 +16,11 @@ import org.bukkit.event.entity.*
 import org.bukkit.event.player.*
 
 class WorldProtection(
-    private val getWorldProtectionRulesUseCase: IGetWorldProtectionRulesUseCase
+    private val listWorldProtectionRuleUseCase: IListWorldProtectionRuleUseCase
 ) : Listener {
 
     private fun checkAllowed(player: Player, location: Location, event: Event, cancellable: Cancellable) {
-        getWorldProtectionRulesUseCase().firstOrNull {
+        listWorldProtectionRuleUseCase().firstOrNull {
             it.isProtected(location) && !it.isAllowedInProtectedLocation(
                 player,
                 location,
@@ -32,8 +32,8 @@ class WorldProtection(
         }
     }
 
-    private fun checkAllowed(location: Location, event: Event, cancellable: Cancellable) {
-        getWorldProtectionRulesUseCase().firstOrNull {
+    private fun checkAllowed(location: Location, cancellable: Cancellable) {
+        listWorldProtectionRuleUseCase().firstOrNull {
             it.isProtected(location)
         }?.let {
             cancellable.isCancelled = true
@@ -133,12 +133,12 @@ class WorldProtection(
 
     @EventHandler
     fun onEntityExplode(event: EntityExplodeEvent) {
-        checkAllowed(event.entity.location, event, event)
+        checkAllowed(event.entity.location, event)
     }
 
     @EventHandler
     fun onBlockIgnite(event: BlockIgniteEvent) {
-        checkAllowed(event.block.location, event, event)
+        checkAllowed(event.block.location, event)
     }
 
 }

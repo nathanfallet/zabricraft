@@ -6,7 +6,7 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 
 class UpdateLeaderboardUseCase(
-    private val getGenerateLeaderboardsUseCase: IGetGenerateLeaderboardsUseCase
+    private val getGenerateLeaderboardUseCase: IGetGenerateLeaderboardUseCase
 ) : IUpdateLeaderboardUseCase {
 
     override fun invoke(input: Leaderboard) {
@@ -26,7 +26,7 @@ class UpdateLeaderboardUseCase(
                 currentLocation.add(0.0, -0.27, 0.0)
             }
         }
-        val generator = getGenerateLeaderboardsUseCase()[input.type] ?: run {
+        val generator = getGenerateLeaderboardUseCase(input.type) ?: run {
             input.armors.forEach {
                 it.customName = ChatColor.RED.toString() + "---------------------------"
             }

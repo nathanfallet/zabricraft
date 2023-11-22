@@ -1,5 +1,6 @@
 package me.nathanfallet.zabricraft
 
+import me.nathanfallet.usecases.models.list.IListModelUseCase
 import me.nathanfallet.zabricraft.commands.auth.LoginCommand
 import me.nathanfallet.zabricraft.commands.auth.RegisterCommand
 import me.nathanfallet.zabricraft.commands.leaderboards.LeaderboardCommand
@@ -13,16 +14,19 @@ import me.nathanfallet.zabricraft.events.core.ServerPing
 import me.nathanfallet.zabricraft.events.games.SignChange
 import me.nathanfallet.zabricraft.events.players.*
 import me.nathanfallet.zabricraft.events.rules.WorldProtection
-import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
-import me.nathanfallet.zabricraft.usecases.games.IGetAddGamesUseCase
+import me.nathanfallet.zabricraft.models.leaderboards.Leaderboard
+import me.nathanfallet.zabricraft.usecases.core.ISetMessageUseCase
+import me.nathanfallet.zabricraft.usecases.games.IClearGamesUseCase
+import me.nathanfallet.zabricraft.usecases.games.IListGameUseCase
 import me.nathanfallet.zabricraft.usecases.games.IUpdateGameUseCase
 import me.nathanfallet.zabricraft.usecases.leaderboards.*
 import me.nathanfallet.zabricraft.usecases.players.IClearZabriPlayersCacheUseCase
 import me.nathanfallet.zabricraft.usecases.players.ICreateUpdateZabriPlayerUseCase
 import me.nathanfallet.zabricraft.usecases.players.IUpdateOnlinePlayersUseCase
-import me.nathanfallet.zabricraft.usecases.rules.IGetWorldProtectionRulesUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IAddWorldProtectionRuleUseCase
+import me.nathanfallet.zabricraft.usecases.rules.IClearWorldProtectionRuleUseCase
 import me.nathanfallet.zabricraft.usecases.rules.IWorldProtectionRuleUseCase
-import me.nathanfallet.zabricraft.usecases.scoreboards.IGetGenerateScoreboardsUseCase
+import me.nathanfallet.zabricraft.usecases.scoreboards.IClearGenerateScoreboardUseCase
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
@@ -44,14 +48,14 @@ class Core : JavaPlugin() {
             return
         }
 
-        val getSetMessageUseCase = get().get<IGetSetMessageUseCase>()
+        val setMessageUseCase = get().get<ISetMessageUseCase>()
         val messagesFile = File(dataFolder, "messages.yml")
         if (!messagesFile.exists()) {
             saveResource("messages.yml", false)
         }
         val messages = YamlConfiguration.loadConfiguration(messagesFile)
         messages.getKeys(false).forEach { id ->
-            getSetMessageUseCase(id, messages.getString(id) ?: "")
+            setMessageUseCase(id, messages.getString(id) ?: "")
         }
 
         val createUpdateZabriPlayerUseCase = get().get<ICreateUpdateZabriPlayerUseCase>()
@@ -61,14 +65,14 @@ class Core : JavaPlugin() {
 
         clearCustomEntities()
 
-        val getWorldProtectionRuleUseCase = get().get<IGetWorldProtectionRulesUseCase>()
+        val addWorldProtectionRuleUseCase = get().get<IAddWorldProtectionRuleUseCase>()
         if (config.getBoolean("server.spawn_protection")) {
-            getWorldProtectionRuleUseCase().add(get().get<IWorldProtectionRuleUseCase>(named("spawn_protection")))
+            addWorldProtectionRuleUseCase(get().get<IWorldProtectionRuleUseCase>(named("spawn_protection")))
         }
 
-        val getGenerateLeaderboardsUseCase = get().get<IGetGenerateLeaderboardsUseCase>()
+        val setGenerateLeaderboardUseCase = get().get<ISetGenerateLeaderboardUseCase>()
         listOf("money", "score", "victories").forEach {
-            getGenerateLeaderboardsUseCase()[it] = get().get<IGenerateLeaderboardUseCase>(named(it))
+            setGenerateLeaderboardUseCase(it, get().get<IGenerateLeaderboardUseCase>(named(it)))
         }
 
         Bukkit.getPluginManager().registerEvents(get().get<PlayerAuthentication>(), this)
@@ -88,16 +92,16 @@ class Core : JavaPlugin() {
         getCommand("spawn")?.setExecutor(get().get<SpawnCommand>())
         getCommand("setspawn")?.setExecutor(get().get<SetSpawnCommand>())
 
-        val getAddGamesUseCase = get().get<IGetAddGamesUseCase>()
+        val listGameUseCase = get().get<IListGameUseCase>()
         val updateGameUseCase = get().get<IUpdateGameUseCase>()
         val updateOnlinePlayersUseCase = get().get<IUpdateOnlinePlayersUseCase>()
-        val getLeaderboardsUseCase = get().get<IGetLeaderboardsUseCase>()
+        val listLeaderboardUseCase = get().get<IListModelUseCase<Leaderboard>>(named<Leaderboard>())
         val saveLeaderboardsUseCase = get().get<ISaveLeaderboardsUseCase>()
         val updateLeaderboardUseCase = get().get<IUpdateLeaderboardUseCase>()
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, {
-            getAddGamesUseCase().forEach { updateGameUseCase(it) }
+            listGameUseCase().forEach { updateGameUseCase(it) }
             updateOnlinePlayersUseCase()
-            getLeaderboardsUseCase().values.forEach { updateLeaderboardUseCase(it) }
+            listLeaderboardUseCase().forEach { updateLeaderboardUseCase(it) }
         }, 0, 20)
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, {
             saveLeaderboardsUseCase()
@@ -105,27 +109,23 @@ class Core : JavaPlugin() {
     }
 
     override fun onDisable() {
-        val getAddGamesUseCase = get().get<IGetAddGamesUseCase>()
-        getAddGamesUseCase().forEach { it.reset() }
-        getAddGamesUseCase.clear()
+        val clearGameUseCase = get().get<IClearGamesUseCase>()
+        clearGameUseCase()
 
         val clearZabriPlayersCacheUseCase = get().get<IClearZabriPlayersCacheUseCase>()
         clearZabriPlayersCacheUseCase()
 
-        val getLeaderboardsUseCase = get().get<IGetLeaderboardsUseCase>()
         val saveLeaderboardsUseCase = get().get<ISaveLeaderboardsUseCase>()
+        val clearLeaderboardUseCase = get().get<IClearLeaderboardsUseCase>()
         saveLeaderboardsUseCase()
-        getLeaderboardsUseCase().forEach { (_, leaderboard) ->
-            leaderboard.kill()
-        }
-        getLeaderboardsUseCase.clear()
+        clearLeaderboardUseCase()
 
-        val getWorldProtectionRuleUseCase = get().get<IGetWorldProtectionRulesUseCase>()
-        val getGenerateLeaderboardsUseCase = get().get<IGetGenerateLeaderboardsUseCase>()
-        val getGenerateScoreboardsUseCase = get().get<IGetGenerateScoreboardsUseCase>()
-        getWorldProtectionRuleUseCase.clear()
-        getGenerateLeaderboardsUseCase.clear()
-        getGenerateScoreboardsUseCase.clear()
+        val getWorldProtectionRuleUseCase = get().get<IClearWorldProtectionRuleUseCase>()
+        val clearGenerateLeaderboardUseCase = get().get<IClearGenerateLeaderboardUseCase>()
+        val getGenerateScoreboardsUseCase = get().get<IClearGenerateScoreboardUseCase>()
+        getWorldProtectionRuleUseCase()
+        clearGenerateLeaderboardUseCase()
+        getGenerateScoreboardsUseCase()
 
         val database = get().get<Database>()
         database.disconnect()

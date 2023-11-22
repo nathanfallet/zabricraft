@@ -1,7 +1,7 @@
 package me.nathanfallet.zabricraft.usecases.players
 
 import kotlinx.datetime.Clock
-import me.nathanfallet.zabricraft.usecases.scoreboards.IGetGenerateScoreboardsUseCase
+import me.nathanfallet.zabricraft.usecases.scoreboards.IListGenerateScoreboardUseCase
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
@@ -11,13 +11,13 @@ import kotlin.time.toDuration
 class UpdateOnlinePlayersUseCase(
     private val plugin: JavaPlugin,
     private val getZabriPlayersUseCase: IGetZabriPlayersUseCase,
-    private val getGenerateScoreboardsUseCase: IGetGenerateScoreboardsUseCase
+    private val listGenerateScoreboardUseCase: IListGenerateScoreboardUseCase
 ) : IUpdateOnlinePlayersUseCase {
 
     override fun invoke() {
         val now = Clock.System.now()
         val zabriPlayers = getZabriPlayersUseCase()
-        val generateScoreboardsUseCase = getGenerateScoreboardsUseCase()
+        val generateScoreboardsUseCase = listGenerateScoreboardUseCase()
         val headerLines = listOf(
             ChatColor.AQUA.toString(),
             ChatColor.AQUA.toString() + ChatColor.BOLD + "Serveur :",
