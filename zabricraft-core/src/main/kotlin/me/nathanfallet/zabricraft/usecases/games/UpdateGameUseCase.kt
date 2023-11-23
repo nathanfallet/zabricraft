@@ -3,13 +3,12 @@ package me.nathanfallet.zabricraft.usecases.games
 import me.nathanfallet.zabricraft.models.games.GameState
 import me.nathanfallet.zabricraft.models.games.IGame
 import me.nathanfallet.zabricraft.usecases.core.IGetMessageUseCase
-import me.nathanfallet.zabricraft.usecases.players.IGetBukkitPlayerUseCase
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Sign
 
 class UpdateGameUseCase(
-    private val getMessageUseCase: IGetMessageUseCase,
-    private val getBukkitPlayerUseCase: IGetBukkitPlayerUseCase
+    private val getMessageUseCase: IGetMessageUseCase
 ) : IUpdateGameUseCase {
 
     private val countdown = 60
@@ -39,7 +38,7 @@ class UpdateGameUseCase(
                     input.currentCountValue <= 5
                 ) {
                     players.forEach {
-                        getBukkitPlayerUseCase(it)?.sendMessage(
+                        Bukkit.getPlayer(it)?.sendMessage(
                             "§e" + getMessageUseCase("chat-start-count").replace(
                                 "%d",
                                 input.currentCountValue.toString()

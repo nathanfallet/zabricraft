@@ -106,7 +106,7 @@ object ZabriKoin {
             single<IGetSignsUseCase> { GetSignsUseCase(get(named<Core>())) }
             single<ISaveSignsUseCase> { SaveSignsUseCase(get(named<Core>())) }
             single<IJoinGameUseCase> { JoinGameUseCase(get()) }
-            single<IUpdateGameUseCase> { UpdateGameUseCase(get(), get()) }
+            single<IUpdateGameUseCase> { UpdateGameUseCase(get()) }
 
             single<IListGenerateLeaderboardUseCase> { ListGenerateLeaderboardUseCase(get()) }
             single<IClearGenerateLeaderboardUseCase> { ClearGenerateLeaderboardUseCase(get()) }
@@ -134,8 +134,6 @@ object ZabriKoin {
             single<IGenerateLeaderboardUseCase>(named("score")) { GenerateScoreLeaderboardUseCase(get()) }
             single<IGenerateLeaderboardUseCase>(named("victories")) { GenerateVictoriesLeaderboardUseCase(get()) }
 
-            single<IGetBukkitPlayerByNameUseCase> { GetBukkitPlayerByNameUseCase() }
-            single<IGetBukkitPlayerUseCase> { GetBukkitPlayerUseCase() }
             single<IGetZabriPlayersUseCase> { GetZabriPlayersUseCase(get()) }
             single<IGetModelUseCase<ZabriPlayer, UUID>>(named<ZabriPlayer>()) {
                 GetModelFromRepositoryUseCase(get<IZabriPlayersRepository>())
@@ -171,7 +169,7 @@ object ZabriKoin {
                 )
             }
             single { MoneyCommand(get(named<ZabriPlayer>())) }
-            single { SpawnCommand(get(), get()) }
+            single { SpawnCommand(get()) }
             single { SetSpawnCommand(get()) }
         }
         val eventModule = module {
