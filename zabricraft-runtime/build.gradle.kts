@@ -31,6 +31,7 @@ dependencies {
     api(project(":zabricraft-bcrypt"))
     api(project(":zabricraft-exposed"))
     api(project(":zabricraft-mysql"))
+    api(project(":zabricraft-h2"))
     api(project(":zabricraft-koin"))
 }
 

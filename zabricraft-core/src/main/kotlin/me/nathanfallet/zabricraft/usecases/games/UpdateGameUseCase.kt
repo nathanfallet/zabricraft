@@ -2,14 +2,13 @@ package me.nathanfallet.zabricraft.usecases.games
 
 import me.nathanfallet.zabricraft.models.games.GameState
 import me.nathanfallet.zabricraft.models.games.IGame
-import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
-import me.nathanfallet.zabricraft.usecases.players.IGetBukkitPlayerUseCase
+import me.nathanfallet.zabricraft.usecases.core.IGetMessageUseCase
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Sign
 
 class UpdateGameUseCase(
-    private val getSetMessageUseCase: IGetSetMessageUseCase,
-    private val getBukkitPlayerUseCase: IGetBukkitPlayerUseCase
+    private val getMessageUseCase: IGetMessageUseCase
 ) : IUpdateGameUseCase {
 
     private val countdown = 60
@@ -39,8 +38,8 @@ class UpdateGameUseCase(
                     input.currentCountValue <= 5
                 ) {
                     players.forEach {
-                        getBukkitPlayerUseCase(it)?.sendMessage(
-                            "§e" + getSetMessageUseCase("chat-start-count").replace(
+                        Bukkit.getPlayer(it)?.sendMessage(
+                            "§e" + getMessageUseCase("chat-start-count").replace(
                                 "%d",
                                 input.currentCountValue.toString()
                             )
@@ -55,9 +54,9 @@ class UpdateGameUseCase(
             if (b.type == Material.OAK_WALL_SIGN) {
                 val s = b.state as Sign
                 s.setLine(0, "§4[${input.name}]")
-                s.setLine(1, getSetMessageUseCase("sign-line-game").replace("%d", input.id.toString()))
+                s.setLine(1, getMessageUseCase("sign-line-game").replace("%d", input.id.toString()))
                 s.setLine(2, "${players.size}/${input.maxPlayers}")
-                s.setLine(3, getSetMessageUseCase(input.state.key).replace("%d", input.currentCountValue.toString()))
+                s.setLine(3, getMessageUseCase(input.state.key).replace("%d", input.currentCountValue.toString()))
                 s.update()
             } else {
                 i.remove()

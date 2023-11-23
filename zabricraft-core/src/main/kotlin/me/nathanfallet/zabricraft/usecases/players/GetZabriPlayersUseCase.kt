@@ -8,7 +8,7 @@ class GetZabriPlayersUseCase(
 ) : IGetZabriPlayersUseCase {
 
     override fun invoke(): List<ZabriPlayer> {
-        return repository.getAll()
+        return repository.list()
     }
 
 }

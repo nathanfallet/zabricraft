@@ -17,6 +17,7 @@ include(":zabricraft-datetime")
 include(":zabricraft-bcrypt")
 include(":zabricraft-exposed")
 include(":zabricraft-mysql")
+include(":zabricraft-h2")
 include(":zabricraft-koin")
 include(":zabricraft-runtime")
 

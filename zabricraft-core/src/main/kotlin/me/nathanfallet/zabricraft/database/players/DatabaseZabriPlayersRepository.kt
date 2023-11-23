@@ -53,10 +53,21 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun getAll(): List<ZabriPlayer> {
+    override fun list(): List<ZabriPlayer> {
         return database.dbQuery {
             ZabriPlayers
                 .selectAll()
+                .map {
+                    ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
+                }
+        }
+    }
+
+    override fun list(limit: Long, offset: Long): List<ZabriPlayer> {
+        return database.dbQuery {
+            ZabriPlayers
+                .selectAll()
+                .limit(limit.toInt(), offset)
                 .map {
                     ZabriPlayers.toZabriPlayer(it, getCached(it[ZabriPlayers.id].value))
                 }

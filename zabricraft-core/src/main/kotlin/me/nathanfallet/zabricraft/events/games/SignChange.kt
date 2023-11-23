@@ -1,13 +1,13 @@
 package me.nathanfallet.zabricraft.events.games
 
-import me.nathanfallet.zabricraft.usecases.games.IGetAddGamesUseCase
+import me.nathanfallet.zabricraft.usecases.games.IListGameUseCase
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
 
 class SignChange(
-    private val getAddGamesUseCase: IGetAddGamesUseCase
+    private val listGameUseCase: IListGameUseCase
 ) : Listener {
 
     @EventHandler
@@ -19,7 +19,7 @@ class SignChange(
         }
         val name = e.getLine(0)
         val id = e.getLine(1)?.toInt()
-        val game = getAddGamesUseCase().firstOrNull {
+        val game = listGameUseCase().firstOrNull {
             it.name == name && it.id == id
         } ?: run {
             e.isCancelled = true

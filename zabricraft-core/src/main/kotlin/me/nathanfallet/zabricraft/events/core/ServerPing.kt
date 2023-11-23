@@ -1,8 +1,8 @@
 package me.nathanfallet.zabricraft.events.core
 
 import me.nathanfallet.zabricraft.models.games.GameState
-import me.nathanfallet.zabricraft.usecases.core.IGetSetMessageUseCase
-import me.nathanfallet.zabricraft.usecases.games.IGetAddGamesUseCase
+import me.nathanfallet.zabricraft.usecases.core.IGetMessageUseCase
+import me.nathanfallet.zabricraft.usecases.games.IListGameUseCase
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler
@@ -12,8 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class ServerPing(
     private val plugin: JavaPlugin,
-    private val getAddGamesUseCase: IGetAddGamesUseCase,
-    private val getSetMessageUseCase: IGetSetMessageUseCase
+    private val listGameUseCase: IListGameUseCase,
+    private val getMessageUseCase: IGetMessageUseCase
 ) : Listener {
 
     private val minecraftVersion: String = run {
@@ -25,10 +25,10 @@ class ServerPing(
 
     private val secondLine: String
         get() {
-            val games = getAddGamesUseCase()
+            val games = listGameUseCase()
             val count = games.size
             if (count == 1) {
-                return ChatColor.YELLOW.toString() + getSetMessageUseCase(games.first().state.key).replace(
+                return ChatColor.YELLOW.toString() + getMessageUseCase(games.first().state.key).replace(
                     "%d",
                     games.first().currentCountValue.toString()
                 )
