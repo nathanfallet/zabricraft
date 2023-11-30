@@ -1,6 +1,7 @@
 package me.nathanfallet.zabricraft.database.players
 
 import kotlinx.datetime.Clock
+import me.nathanfallet.usecases.users.IUser
 import me.nathanfallet.zabricraft.database.Database
 import me.nathanfallet.zabricraft.models.players.CachedPlayer
 import me.nathanfallet.zabricraft.models.players.UpdateZabriPlayerPayload
@@ -23,7 +24,7 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun create(payload: Player): ZabriPlayer? {
+    override fun create(payload: Player, user: IUser?): ZabriPlayer? {
         return database.dbQuery {
             ZabriPlayers.insert {
                 it[id] = payload.uniqueId
@@ -110,7 +111,7 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun update(id: UUID, payload: UpdateZabriPlayerPayload): Boolean {
+    override fun update(id: UUID, payload: UpdateZabriPlayerPayload, user: IUser?): Boolean {
         return database.dbQuery {
             ZabriPlayers.update({ ZabriPlayers.id eq id }) {
                 payload.player?.let { value -> it[name] = value.name }

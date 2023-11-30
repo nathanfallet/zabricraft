@@ -1,5 +1,6 @@
 package me.nathanfallet.zabricraft.repositories.leaderboards
 
+import me.nathanfallet.usecases.users.IUser
 import me.nathanfallet.zabricraft.models.leaderboards.CreateLeaderboardPayload
 import me.nathanfallet.zabricraft.models.leaderboards.Leaderboard
 import me.nathanfallet.zabricraft.models.leaderboards.UpdateLeaderboardPayload
@@ -52,7 +53,7 @@ class LeaderboardsRepository(
         return leaderboards!!.firstOrNull { it.id == id }
     }
 
-    override fun create(payload: CreateLeaderboardPayload): Leaderboard? {
+    override fun create(payload: CreateLeaderboardPayload, user: IUser?): Leaderboard? {
         loadIfNeeded()
         if (get(payload.id) != null) return null
         return Leaderboard(
@@ -65,7 +66,7 @@ class LeaderboardsRepository(
         }
     }
 
-    override fun update(id: String, payload: UpdateLeaderboardPayload): Boolean {
+    override fun update(id: String, payload: UpdateLeaderboardPayload, user: IUser?): Boolean {
         loadIfNeeded()
         val index = leaderboards!!.indexOfFirst { it.id == id }.takeIf { it != -1 } ?: return false
         val leaderboard = leaderboards!![index]
