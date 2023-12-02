@@ -26,7 +26,7 @@ kotlin {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    api("me.nathanfallet.usecases:usecases:1.4.0")
+    api("me.nathanfallet.usecases:usecases:1.4.1")
 }
 
 tasks.jar {
