@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.repositories.leaderboards
 
-import me.nathanfallet.usecases.users.IUser
+import me.nathanfallet.usecases.context.IContext
 import me.nathanfallet.zabricraft.models.leaderboards.CreateLeaderboardPayload
 import me.nathanfallet.zabricraft.models.leaderboards.Leaderboard
 import me.nathanfallet.zabricraft.models.leaderboards.UpdateLeaderboardPayload
@@ -12,7 +12,7 @@ import java.io.File
 import java.io.IOException
 
 class LeaderboardsRepository(
-    private val plugin: JavaPlugin
+    private val plugin: JavaPlugin,
 ) : ILeaderboardsRepository {
 
     private var leaderboards: MutableList<Leaderboard>? = null
@@ -35,12 +35,12 @@ class LeaderboardsRepository(
         }.toMutableList()
     }
 
-    override fun list(): List<Leaderboard> {
+    override fun list(context: IContext?): List<Leaderboard> {
         loadIfNeeded()
         return leaderboards!!
     }
 
-    override fun list(limit: Long, offset: Long): List<Leaderboard> {
+    override fun list(limit: Long, offset: Long, context: IContext?): List<Leaderboard> {
         loadIfNeeded()
         return leaderboards!!.subList(
             offset.toInt(),
@@ -48,12 +48,12 @@ class LeaderboardsRepository(
         )
     }
 
-    override fun get(id: String): Leaderboard? {
+    override fun get(id: String, context: IContext?): Leaderboard? {
         loadIfNeeded()
         return leaderboards!!.firstOrNull { it.id == id }
     }
 
-    override fun create(payload: CreateLeaderboardPayload, user: IUser?): Leaderboard? {
+    override fun create(payload: CreateLeaderboardPayload, context: IContext?): Leaderboard? {
         loadIfNeeded()
         if (get(payload.id) != null) return null
         return Leaderboard(
@@ -66,7 +66,7 @@ class LeaderboardsRepository(
         }
     }
 
-    override fun update(id: String, payload: UpdateLeaderboardPayload, user: IUser?): Boolean {
+    override fun update(id: String, payload: UpdateLeaderboardPayload, context: IContext?): Boolean {
         loadIfNeeded()
         val index = leaderboards!!.indexOfFirst { it.id == id }.takeIf { it != -1 } ?: return false
         val leaderboard = leaderboards!![index]
@@ -79,7 +79,7 @@ class LeaderboardsRepository(
         return true
     }
 
-    override fun delete(id: String): Boolean {
+    override fun delete(id: String, context: IContext?): Boolean {
         loadIfNeeded()
         val leaderboard = leaderboards!!.firstOrNull { it.id == id } ?: return false
         leaderboards!!.remove(leaderboard)

@@ -1,7 +1,7 @@
 package me.nathanfallet.zabricraft.database.players
 
 import kotlinx.datetime.Clock
-import me.nathanfallet.usecases.users.IUser
+import me.nathanfallet.usecases.context.IContext
 import me.nathanfallet.zabricraft.database.Database
 import me.nathanfallet.zabricraft.models.players.CachedPlayer
 import me.nathanfallet.zabricraft.models.players.UpdateZabriPlayerPayload
@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.*
 import java.util.*
 
 class DatabaseZabriPlayersRepository(
-    private val database: Database
+    private val database: Database,
 ) : IZabriPlayersRepository {
 
     private val cachedPlayers = mutableMapOf<UUID, CachedPlayer>()
@@ -24,7 +24,7 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun create(payload: Player, user: IUser?): ZabriPlayer? {
+    override fun create(payload: Player, context: IContext?): ZabriPlayer? {
         return database.dbQuery {
             ZabriPlayers.insert {
                 it[id] = payload.uniqueId
@@ -35,7 +35,7 @@ class DatabaseZabriPlayersRepository(
         }?.singleOrNull()
     }
 
-    override fun delete(id: UUID): Boolean {
+    override fun delete(id: UUID, context: IContext?): Boolean {
         return database.dbQuery {
             ZabriPlayers.deleteWhere {
                 Op.build { ZabriPlayers.id eq id }
@@ -43,7 +43,7 @@ class DatabaseZabriPlayersRepository(
         } == 1
     }
 
-    override fun get(id: UUID): ZabriPlayer? {
+    override fun get(id: UUID, context: IContext?): ZabriPlayer? {
         return database.dbQuery {
             ZabriPlayers
                 .select { ZabriPlayers.id eq id }
@@ -54,7 +54,7 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun list(): List<ZabriPlayer> {
+    override fun list(context: IContext?): List<ZabriPlayer> {
         return database.dbQuery {
             ZabriPlayers
                 .selectAll()
@@ -64,7 +64,7 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun list(limit: Long, offset: Long): List<ZabriPlayer> {
+    override fun list(limit: Long, offset: Long, context: IContext?): List<ZabriPlayer> {
         return database.dbQuery {
             ZabriPlayers
                 .selectAll()
@@ -111,7 +111,7 @@ class DatabaseZabriPlayersRepository(
         }
     }
 
-    override fun update(id: UUID, payload: UpdateZabriPlayerPayload, user: IUser?): Boolean {
+    override fun update(id: UUID, payload: UpdateZabriPlayerPayload, context: IContext?): Boolean {
         return database.dbQuery {
             ZabriPlayers.update({ ZabriPlayers.id eq id }) {
                 payload.player?.let { value -> it[name] = value.name }
