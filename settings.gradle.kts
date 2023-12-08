@@ -13,6 +13,7 @@ rootProject.name = "zabricraft"
 includeBuild("convention-plugins")
 
 include(":zabricraft-usecases")
+include(":zabricraft-i18n")
 include(":zabricraft-datetime")
 include(":zabricraft-bcrypt")
 include(":zabricraft-exposed")

@@ -9,8 +9,8 @@ plugins {
 publishing {
     publications.withType<MavenPublication> {
         pom {
-            name.set("zabricraft-runtime")
-            description.set("Wrapping all dependencies as a plugin.")
+            name.set("zabricraft-i18n")
+            description.set("Wrapping nathanfallet/i18n as a plugin.")
         }
     }
 }
@@ -26,14 +26,7 @@ kotlin {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    api(project(":zabricraft-usecases"))
-    api(project(":zabricraft-i18n"))
-    api(project(":zabricraft-datetime"))
-    api(project(":zabricraft-bcrypt"))
-    api(project(":zabricraft-exposed"))
-    api(project(":zabricraft-mysql"))
-    api(project(":zabricraft-h2"))
-    api(project(":zabricraft-koin"))
+    api("me.nathanfallet.i18n:i18n:1.0.5")
 }
 
 tasks.jar {

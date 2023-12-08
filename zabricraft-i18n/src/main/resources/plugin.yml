@@ -1,0 +1,8 @@
+name: I18n
+author: Nathan Fallet
+main: me.nathanfallet.zabricraft.I18n
+load: STARTUP
+loadbefore:
+  - Core
+version: 1.0.0
+api-version: 1.20
