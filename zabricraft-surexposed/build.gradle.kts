@@ -9,8 +9,8 @@ plugins {
 publishing {
     publications.withType<MavenPublication> {
         pom {
-            name.set("zabricraft-datetime")
-            description.set("Wrapping kotlin/kotlinx-datetime as a plugin.")
+            name.set("zabricraft-surexposed")
+            description.set("Wrapping nathanfallet/surexposed as a plugin.")
         }
     }
 }
@@ -26,7 +26,7 @@ kotlin {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    api("me.nathanfallet.surexposed:surexposed:1.0.1")
 }
 
 tasks.jar {

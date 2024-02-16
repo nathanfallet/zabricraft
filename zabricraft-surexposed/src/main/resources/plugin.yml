@@ -1,6 +1,6 @@
-name: Datetime
+name: Surexposed
 author: Nathan Fallet
-main: me.nathanfallet.zabricraft.Datetime
+main: me.nathanfallet.zabricraft.Surexposed
 load: STARTUP
 loadbefore:
   - Core
