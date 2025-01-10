@@ -42,6 +42,31 @@ dependencyResolutionManagement {
             // Tests
             library("tests-mockk", "io.mockk:mockk:1.13.12")
 
+            // Ktor
+            version("ktor", "2.3.12")
+            library("ktor-serialization-kotlinx-json", "io.ktor", "ktor-serialization-kotlinx-json").versionRef("ktor")
+            library("ktor-client-core", "io.ktor", "ktor-client-core").versionRef("ktor")
+            library("ktor-client-apache", "io.ktor", "ktor-client-apache").versionRef("ktor")
+            library("ktor-client-jetty", "io.ktor", "ktor-client-jetty").versionRef("ktor")
+            library("ktor-client-content-negotiation", "io.ktor", "ktor-client-content-negotiation").versionRef("ktor")
+            library("ktor-client-mock", "io.ktor", "ktor-client-mock").versionRef("ktor")
+            bundle(
+                "ktor-client-api",
+                listOf(
+                    "ktor-client-core",
+                    "ktor-client-apache",
+                    "ktor-client-jetty",
+                    "ktor-client-content-negotiation",
+                    "ktor-serialization-kotlinx-json"
+                )
+            )
+            bundle(
+                "ktor-client-tests",
+                listOf(
+                    "ktor-client-mock",
+                )
+            )
+
             // Koin
             version("koin", "3.5.0")
             library("koin-core", "io.insert-koin", "koin-core").versionRef("koin")
@@ -60,6 +85,7 @@ include(":kaccelero")
 include(":mysql")
 include(":h2")
 include(":koin")
+include(":ktor")
 include(":runtime")
 
 include(":core")

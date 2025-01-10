@@ -10,8 +10,8 @@ mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
     pom {
-        name.set("runtime")
-        description.set("Wrapping all dependencies as a plugin.")
+        name.set("ktor")
+        description.set("Wrapping ktor as a plugin.")
         url.set(project.ext.get("url")?.toString())
         licenses {
             license {
@@ -39,11 +39,7 @@ kotlin {
 
 dependencies {
     compileOnly(libs.spigot)
-    api(project(":kaccelero"))
-    api(project(":mysql"))
-    api(project(":h2"))
-    api(project(":koin"))
-    api(project(":ktor"))
+    api(libs.bundles.ktor.client.api)
 }
 
 tasks.jar {
