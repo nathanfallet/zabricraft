@@ -27,6 +27,7 @@ dependencyResolutionManagement {
             library("kaccelero-i18n", "dev.kaccelero", "i18n").versionRef("kaccelero")
             library("kaccelero-auth", "dev.kaccelero", "auth").versionRef("kaccelero")
             library("kaccelero-database-exposed", "dev.kaccelero", "database-exposed").versionRef("kaccelero")
+            library("kaccelero-routers-client", "dev.kaccelero", "routers-client-ktor").versionRef("kaccelero")
             bundle(
                 "kaccelero",
                 listOf(
@@ -34,6 +35,7 @@ dependencyResolutionManagement {
                     "kaccelero-i18n",
                     "kaccelero-auth",
                     "kaccelero-database-exposed",
+                    "kaccelero-routers-client",
                 )
             )
 
