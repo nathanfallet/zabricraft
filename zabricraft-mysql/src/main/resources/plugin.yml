@@ -1,8 +1,0 @@
-name: MySQL
-author: Nathan Fallet
-main: me.nathanfallet.zabricraft.MySQL
-load: STARTUP
-loadbefore:
-  - Core
-version: 1.0.0
-api-version: 1.20

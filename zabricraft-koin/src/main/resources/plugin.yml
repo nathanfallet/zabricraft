@@ -1,8 +1,0 @@
-name: Koin
-author: Nathan Fallet
-main: me.nathanfallet.zabricraft.Koin
-load: STARTUP
-loadbefore:
-  - Core
-version: 1.0.0
-api-version: 1.20

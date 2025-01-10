@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = "me.nathanfallet.zabricraft"
+    group = "dev.zabricraft"
     version = "0.3.0"
     project.ext.set("url", "https://github.com/nathanfallet/zabricraft")
     project.ext.set("license.name", "GPL-3.0")

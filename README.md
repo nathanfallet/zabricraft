@@ -9,4 +9,4 @@ A collection of Minecraft plugins to make minigame servers.
 
 ## Components
 
-- [zabricraft-core](zabricraft-core/README.md)
+- [core](core/README.md)
