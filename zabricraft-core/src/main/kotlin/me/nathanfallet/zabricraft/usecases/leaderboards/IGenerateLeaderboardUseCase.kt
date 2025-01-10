@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.usecases.leaderboards
 
-import me.nathanfallet.usecases.base.IUseCase
+import dev.kaccelero.usecases.IUseCase
 
 interface IGenerateLeaderboardUseCase : IUseCase<Int, List<String>> {
 

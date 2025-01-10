@@ -10,8 +10,8 @@ mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
     pom {
-        name.set("zabricraft-koin")
-        description.set("Wrapping insert-koin/koin as a plugin.")
+        name.set("zabricraft-kaccelero")
+        description.set("Wrapping kaccelero as a plugin.")
         url.set(project.ext.get("url")?.toString())
         licenses {
             license {
@@ -44,7 +44,10 @@ kotlin {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    api("io.insert-koin:koin-core:3.5.0")
+    api("dev.kaccelero:core:0.4.3")
+    api("dev.kaccelero:i18n:0.4.3")
+    api("dev.kaccelero:auth:0.4.3")
+    api("dev.kaccelero:database-exposed:0.4.3")
 }
 
 tasks.jar {

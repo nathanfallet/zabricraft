@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.repositories.players
 
-import me.nathanfallet.usecases.models.repositories.IModelRepository
+import dev.kaccelero.repositories.IModelRepository
 import me.nathanfallet.zabricraft.models.players.CachedPlayer
 import me.nathanfallet.zabricraft.models.players.UpdateZabriPlayerPayload
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer

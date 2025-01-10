@@ -1,5 +1,5 @@
 package me.nathanfallet.zabricraft.usecases.core
 
-import me.nathanfallet.usecases.base.IUseCase
+import dev.kaccelero.usecases.IUseCase
 
 interface IGetMessageUseCase : IUseCase<String, String>

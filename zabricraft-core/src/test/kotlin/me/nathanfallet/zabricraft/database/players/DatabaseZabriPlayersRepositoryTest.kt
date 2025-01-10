@@ -10,7 +10,6 @@ import me.nathanfallet.zabricraft.models.players.CachedPlayer
 import me.nathanfallet.zabricraft.models.players.UpdateZabriPlayerPayload
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import java.util.*
 import kotlin.test.Test
@@ -29,7 +28,7 @@ class DatabaseZabriPlayersRepositoryTest {
         every { player.uniqueId } returns uuid
         every { player.name } returns "Player"
         val zabriPlayer = repository.create(player)
-        val zabriPlayerFromDatabase = database.dbQuery {
+        val zabriPlayerFromDatabase = database.transaction {
             ZabriPlayers
                 .selectAll()
                 .map {
@@ -63,9 +62,10 @@ class DatabaseZabriPlayersRepositoryTest {
         every { player.uniqueId } returns uuid
         every { player.name } returns "Player"
         val zabriPlayer = repository.create(player)
-        val zabriPlayerFromDatabase = database.dbQuery {
+        val zabriPlayerFromDatabase = database.transaction {
             ZabriPlayers
-                .select { ZabriPlayers.id eq uuid }
+                .selectAll()
+                .where { ZabriPlayers.id eq uuid }
                 .map {
                     ZabriPlayers.toZabriPlayer(it, CachedPlayer(false, Clock.System.now()))
                 }
@@ -92,9 +92,10 @@ class DatabaseZabriPlayersRepositoryTest {
         every { player.name } returns "Player"
         val zabriPlayer = repository.create(player)
         repository.update(uuid, UpdateZabriPlayerPayload(money = 100, score = 200, victories = 300, admin = true))
-        val zabriPlayerFromDatabase = database.dbQuery {
+        val zabriPlayerFromDatabase = database.transaction {
             ZabriPlayers
-                .select { ZabriPlayers.id eq uuid }
+                .selectAll()
+                .where { ZabriPlayers.id eq uuid }
                 .map {
                     ZabriPlayers.toZabriPlayer(it, CachedPlayer(false, Clock.System.now()))
                 }
@@ -121,7 +122,7 @@ class DatabaseZabriPlayersRepositoryTest {
         every { player.name } returns "Player"
         repository.create(player)
         repository.delete(uuid)
-        val count = database.dbQuery {
+        val count = database.transaction {
             ZabriPlayers
                 .selectAll()
                 .count()

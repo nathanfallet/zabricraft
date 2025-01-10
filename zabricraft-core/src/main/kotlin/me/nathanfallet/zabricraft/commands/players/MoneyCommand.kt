@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.commands.players
 
-import me.nathanfallet.usecases.models.get.IGetModelUseCase
+import dev.kaccelero.commons.repositories.IGetModelUseCase
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 import java.util.*
 
 class MoneyCommand(
-    private val getZabriPlayerUseCase: IGetModelUseCase<ZabriPlayer, UUID>
+    private val getZabriPlayerUseCase: IGetModelUseCase<ZabriPlayer, UUID>,
 ) : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {

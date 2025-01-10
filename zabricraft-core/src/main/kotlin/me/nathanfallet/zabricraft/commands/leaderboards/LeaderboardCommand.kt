@@ -1,10 +1,6 @@
 package me.nathanfallet.zabricraft.commands.leaderboards
 
-import me.nathanfallet.usecases.models.create.ICreateModelUseCase
-import me.nathanfallet.usecases.models.delete.IDeleteModelUseCase
-import me.nathanfallet.usecases.models.get.IGetModelUseCase
-import me.nathanfallet.usecases.models.list.IListModelUseCase
-import me.nathanfallet.usecases.models.update.IUpdateModelUseCase
+import dev.kaccelero.commons.repositories.*
 import me.nathanfallet.zabricraft.models.leaderboards.CreateLeaderboardPayload
 import me.nathanfallet.zabricraft.models.leaderboards.Leaderboard
 import me.nathanfallet.zabricraft.models.leaderboards.UpdateLeaderboardPayload
@@ -21,7 +17,7 @@ class LeaderboardCommand(
     private val getLeaderboardUseCase: IGetModelUseCase<Leaderboard, String>,
     private val updateLeaderboardUseCase: IUpdateModelUseCase<Leaderboard, String, UpdateLeaderboardPayload>,
     private val deleteLeaderboardUseCase: IDeleteModelUseCase<Leaderboard, String>,
-    private val getGenerateLeaderboardsUseCase: IListGenerateLeaderboardUseCase
+    private val getGenerateLeaderboardsUseCase: IListGenerateLeaderboardUseCase,
 ) : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {

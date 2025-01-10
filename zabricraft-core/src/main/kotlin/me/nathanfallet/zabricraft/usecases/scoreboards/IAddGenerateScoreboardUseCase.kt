@@ -1,5 +1,5 @@
 package me.nathanfallet.zabricraft.usecases.scoreboards
 
-import me.nathanfallet.usecases.base.IUseCase
+import dev.kaccelero.usecases.IUseCase
 
 interface IAddGenerateScoreboardUseCase : IUseCase<IGenerateScoreboardUseCase, Unit>

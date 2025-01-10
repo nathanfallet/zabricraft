@@ -1,5 +1,5 @@
 package me.nathanfallet.zabricraft.usecases.players
 
-import me.nathanfallet.usecases.base.IUnitUseCase
+import dev.kaccelero.usecases.IUnitUseCase
 
 interface IUpdateOnlinePlayersUseCase : IUnitUseCase<Unit>

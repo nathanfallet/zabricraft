@@ -1,6 +1,7 @@
 package me.nathanfallet.zabricraft.repositories.leaderboards
 
-import me.nathanfallet.usecases.context.IContext
+import dev.kaccelero.models.IContext
+import dev.kaccelero.repositories.Pagination
 import me.nathanfallet.zabricraft.models.leaderboards.CreateLeaderboardPayload
 import me.nathanfallet.zabricraft.models.leaderboards.Leaderboard
 import me.nathanfallet.zabricraft.models.leaderboards.UpdateLeaderboardPayload
@@ -40,11 +41,11 @@ class LeaderboardsRepository(
         return leaderboards!!
     }
 
-    override fun list(limit: Long, offset: Long, context: IContext?): List<Leaderboard> {
+    override fun list(pagination: Pagination, context: IContext?): List<Leaderboard> {
         loadIfNeeded()
         return leaderboards!!.subList(
-            offset.toInt(),
-            leaderboards!!.size.coerceAtMost(offset.toInt() + limit.toInt())
+            pagination.offset.toInt(),
+            leaderboards!!.size.coerceAtMost(pagination.offset.toInt() + pagination.limit.toInt())
         )
     }
 

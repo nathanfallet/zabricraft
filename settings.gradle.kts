@@ -10,12 +10,7 @@ plugins {
 }
 
 rootProject.name = "zabricraft"
-includeBuild("convention-plugins")
-
-include(":zabricraft-usecases")
-include(":zabricraft-i18n")
-include(":zabricraft-bcrypt")
-include(":zabricraft-surexposed")
+include(":zabricraft-kaccelero")
 include(":zabricraft-mysql")
 include(":zabricraft-h2")
 include(":zabricraft-koin")

@@ -1,8 +1,8 @@
 package me.nathanfallet.zabricraft.models.players
 
+import dev.kaccelero.commons.permissions.IPermittee
+import dev.kaccelero.models.IModel
 import kotlinx.datetime.Instant
-import me.nathanfallet.usecases.models.IModel
-import me.nathanfallet.usecases.permissions.IPermittee
 import org.bukkit.entity.Player
 import java.util.*
 

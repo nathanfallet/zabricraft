@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.events.players
 
-import me.nathanfallet.usecases.models.get.IGetModelUseCase
+import dev.kaccelero.commons.repositories.IGetModelUseCase
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import me.nathanfallet.zabricraft.usecases.games.IJoinGameUseCase
 import me.nathanfallet.zabricraft.usecases.games.IListGameUseCase
@@ -14,7 +14,7 @@ import java.util.*
 class PlayerInteract(
     private val listGameUseCase: IListGameUseCase,
     private val joinGameUseCase: IJoinGameUseCase,
-    private val getZabriPlayerUseCase: IGetModelUseCase<ZabriPlayer, UUID>
+    private val getZabriPlayerUseCase: IGetModelUseCase<ZabriPlayer, UUID>,
 ) : Listener {
 
     @EventHandler

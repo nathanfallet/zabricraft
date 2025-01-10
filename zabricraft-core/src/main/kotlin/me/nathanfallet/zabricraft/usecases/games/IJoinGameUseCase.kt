@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.usecases.games
 
-import me.nathanfallet.usecases.base.ITripleUseCase
+import dev.kaccelero.usecases.ITripleUseCase
 import me.nathanfallet.zabricraft.models.games.IGame
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import org.bukkit.entity.Player

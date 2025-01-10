@@ -1,5 +1,5 @@
 package me.nathanfallet.zabricraft.usecases.rules
 
-import me.nathanfallet.usecases.base.IUseCase
+import dev.kaccelero.usecases.IUseCase
 
 interface IAddWorldProtectionRuleUseCase : IUseCase<IWorldProtectionRuleUseCase, Unit>

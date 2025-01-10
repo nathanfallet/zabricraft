@@ -1,5 +1,5 @@
 package me.nathanfallet.zabricraft.usecases.leaderboards
 
-import me.nathanfallet.usecases.base.IUnitUseCase
+import dev.kaccelero.usecases.IUnitUseCase
 
 interface ISaveLeaderboardsUseCase : IUnitUseCase<Unit>

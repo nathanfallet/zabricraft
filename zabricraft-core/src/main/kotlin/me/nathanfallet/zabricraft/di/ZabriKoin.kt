@@ -1,15 +1,10 @@
 package me.nathanfallet.zabricraft.di
 
-import me.nathanfallet.usecases.models.create.CreateModelFromRepositoryUseCase
-import me.nathanfallet.usecases.models.create.ICreateModelUseCase
-import me.nathanfallet.usecases.models.delete.DeleteModelFromRepositoryUseCase
-import me.nathanfallet.usecases.models.delete.IDeleteModelUseCase
-import me.nathanfallet.usecases.models.get.GetModelFromRepositoryUseCase
-import me.nathanfallet.usecases.models.get.IGetModelUseCase
-import me.nathanfallet.usecases.models.list.IListModelUseCase
-import me.nathanfallet.usecases.models.list.ListModelFromRepositoryUseCase
-import me.nathanfallet.usecases.models.update.IUpdateModelUseCase
-import me.nathanfallet.usecases.models.update.UpdateModelFromRepositoryUseCase
+import dev.kaccelero.commons.auth.HashPasswordUseCase
+import dev.kaccelero.commons.auth.IHashPasswordUseCase
+import dev.kaccelero.commons.auth.IVerifyPasswordUseCase
+import dev.kaccelero.commons.auth.VerifyPasswordUseCase
+import dev.kaccelero.commons.repositories.*
 import me.nathanfallet.zabricraft.Core
 import me.nathanfallet.zabricraft.commands.auth.LoginCommand
 import me.nathanfallet.zabricraft.commands.auth.RegisterCommand
@@ -41,7 +36,8 @@ import me.nathanfallet.zabricraft.repositories.rules.IWorldProtectionRuleUseCase
 import me.nathanfallet.zabricraft.repositories.rules.WorldProtectionRuleUseCaseRepository
 import me.nathanfallet.zabricraft.repositories.scoreboards.GenerateScoreboardUseCasesRepository
 import me.nathanfallet.zabricraft.repositories.scoreboards.IGenerateScoreboardUseCasesRepository
-import me.nathanfallet.zabricraft.usecases.auth.*
+import me.nathanfallet.zabricraft.usecases.auth.AuthenticatePlayerUseCase
+import me.nathanfallet.zabricraft.usecases.auth.IAuthenticatePlayerUseCase
 import me.nathanfallet.zabricraft.usecases.core.GetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.core.IGetMessageUseCase
 import me.nathanfallet.zabricraft.usecases.core.ISetMessageUseCase

@@ -1,5 +1,8 @@
 package me.nathanfallet.zabricraft.usecases.auth
 
+import dev.kaccelero.commons.auth.IHashPasswordUseCase
+import dev.kaccelero.commons.auth.IVerifyPasswordUseCase
+import dev.kaccelero.commons.auth.VerifyPasswordPayload
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -23,7 +26,7 @@ class AuthenticatePlayerUseCaseTest {
         val uuid = UUID.randomUUID()
         val loginAt = Clock.System.now()
         val scoreboard = PlayerScoreboard("Scoreboard")
-        every { verifyPasswordUseCase("password", "hash") } returns true
+        every { verifyPasswordUseCase(VerifyPasswordPayload("password", "hash")) } returns true
         every { repository.updateCached(uuid, CachedPlayer(true, loginAt, scoreboard)) } returns Unit
         assertEquals(
             true, useCase(

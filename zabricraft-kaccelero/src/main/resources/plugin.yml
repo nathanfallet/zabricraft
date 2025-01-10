@@ -1,6 +1,6 @@
-name: I18n
+name: Kaccelero
 author: Nathan Fallet
-main: me.nathanfallet.zabricraft.I18n
+main: me.nathanfallet.zabricraft.Kaccelero
 load: STARTUP
 loadbefore:
   - Core

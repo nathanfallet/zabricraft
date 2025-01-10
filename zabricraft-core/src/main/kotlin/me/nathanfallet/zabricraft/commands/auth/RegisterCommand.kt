@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft.commands.auth
 
-import me.nathanfallet.usecases.models.get.IGetModelUseCase
+import dev.kaccelero.commons.repositories.IGetModelUseCase
 import me.nathanfallet.zabricraft.models.players.ZabriPlayer
 import me.nathanfallet.zabricraft.usecases.auth.IAuthenticatePlayerUseCase
 import org.bukkit.ChatColor
@@ -12,7 +12,7 @@ import java.util.*
 
 class RegisterCommand(
     private val getZabriPlayerUseCase: IGetModelUseCase<ZabriPlayer, UUID>,
-    private val authenticatePlayerUseCase: IAuthenticatePlayerUseCase
+    private val authenticatePlayerUseCase: IAuthenticatePlayerUseCase,
 ) : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {

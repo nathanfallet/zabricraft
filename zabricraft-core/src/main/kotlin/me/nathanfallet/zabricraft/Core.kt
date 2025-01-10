@@ -1,6 +1,6 @@
 package me.nathanfallet.zabricraft
 
-import me.nathanfallet.usecases.models.list.IListModelUseCase
+import dev.kaccelero.commons.repositories.IListModelUseCase
 import me.nathanfallet.zabricraft.commands.auth.LoginCommand
 import me.nathanfallet.zabricraft.commands.auth.RegisterCommand
 import me.nathanfallet.zabricraft.commands.leaderboards.LeaderboardCommand
