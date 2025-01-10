@@ -44,3 +44,13 @@ dependencies {
     api(project(":h2"))
     api(project(":koin"))
 }
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    from(
+        configurations.runtimeClasspath.get().map {
+            if (it.isDirectory()) it else zipTree(it)
+        }
+    )
+}

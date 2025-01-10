@@ -41,3 +41,13 @@ dependencies {
     compileOnly(libs.spigot)
     api(libs.bundles.kaccelero)
 }
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    from(
+        configurations.runtimeClasspath.get().map {
+            if (it.isDirectory()) it else zipTree(it)
+        }
+    )
+}
