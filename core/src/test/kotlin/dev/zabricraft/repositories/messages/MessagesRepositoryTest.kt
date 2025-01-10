@@ -1,4 +1,4 @@
-package dev.zabricraft.repositories.core
+package dev.zabricraft.repositories.messages
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

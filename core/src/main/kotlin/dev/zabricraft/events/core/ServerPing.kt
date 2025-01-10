@@ -1,8 +1,8 @@
 package dev.zabricraft.events.core
 
 import dev.zabricraft.models.games.GameState
-import dev.zabricraft.usecases.core.IGetMessageUseCase
 import dev.zabricraft.usecases.games.IListGameUseCase
+import dev.zabricraft.usecases.messages.IGetMessageUseCase
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler

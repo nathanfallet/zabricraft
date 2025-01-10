@@ -1,6 +1,6 @@
-package dev.zabricraft.usecases.core
+package dev.zabricraft.usecases.messages
 
-import dev.zabricraft.repositories.core.IMessagesRepository
+import dev.zabricraft.repositories.messages.IMessagesRepository
 import org.bukkit.ChatColor
 
 class SetMessageUseCase(

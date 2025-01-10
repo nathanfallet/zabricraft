@@ -1,4 +1,4 @@
-package dev.zabricraft.usecases.core
+package dev.zabricraft.usecases.messages
 
 import dev.kaccelero.usecases.IUseCase
 

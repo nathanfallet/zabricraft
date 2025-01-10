@@ -15,11 +15,11 @@ import dev.zabricraft.events.games.SignChange
 import dev.zabricraft.events.players.*
 import dev.zabricraft.events.rules.WorldProtection
 import dev.zabricraft.models.leaderboards.Leaderboard
-import dev.zabricraft.usecases.core.ISetMessageUseCase
 import dev.zabricraft.usecases.games.IClearGamesUseCase
 import dev.zabricraft.usecases.games.IListGameUseCase
 import dev.zabricraft.usecases.games.IUpdateGameUseCase
 import dev.zabricraft.usecases.leaderboards.*
+import dev.zabricraft.usecases.messages.ISetMessageUseCase
 import dev.zabricraft.usecases.players.IClearZabriPlayersCacheUseCase
 import dev.zabricraft.usecases.players.ICreateUpdateZabriPlayerUseCase
 import dev.zabricraft.usecases.players.IUpdateOnlinePlayersUseCase

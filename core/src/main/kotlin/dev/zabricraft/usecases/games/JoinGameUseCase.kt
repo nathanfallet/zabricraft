@@ -3,7 +3,7 @@ package dev.zabricraft.usecases.games
 import dev.zabricraft.models.games.GameState
 import dev.zabricraft.models.games.IGame
 import dev.zabricraft.models.players.ZabriPlayer
-import dev.zabricraft.usecases.core.IGetMessageUseCase
+import dev.zabricraft.usecases.messages.IGetMessageUseCase
 import org.bukkit.entity.Player
 
 class JoinGameUseCase(
