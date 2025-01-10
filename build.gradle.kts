@@ -1,9 +1,5 @@
 plugins {
-    kotlin("jvm").version("2.0.20").apply(false)
-    kotlin("plugin.serialization").version("2.0.20").apply(false)
-    id("org.jetbrains.kotlinx.kover").version("0.8.3").apply(false)
-    id("com.google.devtools.ksp").version("2.0.20-1.0.24").apply(false)
-    id("com.vanniktech.maven.publish").version("0.28.0").apply(false)
+    alias(libs.plugins.jvm) apply false
 }
 
 allprojects {

@@ -1,9 +1,9 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
-    id("com.vanniktech.maven.publish")
-    id("org.jetbrains.kotlinx.kover")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.jvm)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.maven)
 }
 
 mavenPublishing {
@@ -33,22 +33,18 @@ mavenPublishing {
     }
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 kotlin {
     jvmToolchain(21)
 }
 
 dependencies {
-    implementation("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly(libs.spigot)
+    //implementation(libs.spigot)
 
     api(project(":zabricraft-runtime"))
 
     testImplementation(kotlin("test"))
-    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation(libs.tests.mockk)
 }
 
 tasks.test {

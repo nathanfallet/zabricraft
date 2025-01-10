@@ -1,9 +1,9 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
-    id("com.vanniktech.maven.publish")
-    id("org.jetbrains.kotlinx.kover")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.jvm)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.maven)
 }
 
 mavenPublishing {
@@ -33,26 +33,11 @@ mavenPublishing {
     }
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 kotlin {
     jvmToolchain(21)
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    api("com.h2database:h2:2.2.224")
-}
-
-tasks.jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
-    from(
-        configurations.runtimeClasspath.get().map {
-            if (it.isDirectory()) it else zipTree(it)
-        }
-    )
+    compileOnly(libs.spigot)
+    api(libs.h2)
 }
