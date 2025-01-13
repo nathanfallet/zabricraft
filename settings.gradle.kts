@@ -89,3 +89,4 @@ include(":ktor")
 include(":runtime")
 
 include(":core")
+include(":replica")

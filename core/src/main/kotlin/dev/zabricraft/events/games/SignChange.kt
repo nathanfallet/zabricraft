@@ -17,10 +17,10 @@ class SignChange(
             e.player.sendMessage(ChatColor.RED.toString() + "Vous n'avez pas la permission de faire ça !")
             return
         }
-        val name = e.getLine(0)
+        val name = e.getLine(0)?.let { it.substring(1, it.length - 1) }
         val id = e.getLine(1)?.toInt()
         val game = listGameUseCase().firstOrNull {
-            it.name == name && it.id == id
+            it.name.equals(name, ignoreCase = true) && it.id == id
         } ?: run {
             e.isCancelled = true
             e.player.sendMessage(ChatColor.RED.toString() + "Entrez un nom et un numéro de partie valide !")

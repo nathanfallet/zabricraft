@@ -97,11 +97,12 @@ object ZabriKoin {
             single<ISetMessageUseCase> { SetMessageUseCase(get()) }
 
             single<IListGameUseCase> { ListGameUseCase(get()) }
-            single<IAddGameUseCase> { AddGameUseCase(get()) }
+            single<IAddGameUseCase> { AddGameUseCase(get(), get()) }
+            single<ISaveGamesUseCase> { SaveGamesUseCase(get(), get()) }
             single<IClearGamesUseCase> { ClearGamesUseCase(get()) }
             single<IGetSignsUseCase> { GetSignsUseCase(get(named<Core>())) }
             single<ISaveSignsUseCase> { SaveSignsUseCase(get(named<Core>())) }
-            single<IJoinGameUseCase> { JoinGameUseCase(get()) }
+            single<IJoinGameUseCase> { JoinGameUseCase(get(), get()) }
             single<IUpdateGameUseCase> { UpdateGameUseCase(get()) }
 
             single<IListGenerateLeaderboardUseCase> { ListGenerateLeaderboardUseCase(get()) }
@@ -130,13 +131,21 @@ object ZabriKoin {
             single<IGenerateLeaderboardUseCase>(named("score")) { GenerateScoreLeaderboardUseCase(get()) }
             single<IGenerateLeaderboardUseCase>(named("victories")) { GenerateVictoriesLeaderboardUseCase(get()) }
 
-            single<IGetZabriPlayersUseCase> { GetZabriPlayersUseCase(get()) }
+            single<IListModelUseCase<ZabriPlayer>>(named<ZabriPlayer>()) {
+                ListModelFromRepositoryUseCase(get<IZabriPlayersRepository>())
+            }
             single<IGetModelUseCase<ZabriPlayer, UUID>>(named<ZabriPlayer>()) {
                 GetModelFromRepositoryUseCase(get<IZabriPlayersRepository>())
             }
             single<ICreateUpdateZabriPlayerUseCase> { CreateUpdateZabriPlayerUseCase(get()) }
             single<IGetCachedZabriPlayerUseCase> { GetCachedZabriPlayerUseCase(get()) }
-            single<IUpdateOnlinePlayersUseCase> { UpdateOnlinePlayersUseCase(get(named<Core>()), get(), get()) }
+            single<IUpdateOnlinePlayersUseCase> {
+                UpdateOnlinePlayersUseCase(
+                    get(named<Core>()),
+                    get(named<ZabriPlayer>()),
+                    get()
+                )
+            }
             single<IClearZabriPlayersCacheUseCase> { ClearZabriPlayersCacheUseCase(get()) }
             single<IClearZabriPlayerCacheUseCase> { ClearZabriPlayerCacheUseCase(get()) }
 

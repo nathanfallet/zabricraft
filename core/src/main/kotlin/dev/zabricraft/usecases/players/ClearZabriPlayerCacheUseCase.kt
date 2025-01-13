@@ -7,8 +7,6 @@ class ClearZabriPlayerCacheUseCase(
     private val repository: IZabriPlayersRepository,
 ) : IClearZabriPlayerCacheUseCase {
 
-    override fun invoke(input: UUID) {
-        repository.clearCache(input)
-    }
+    override fun invoke(input: UUID) = repository.clearCache(input)
 
 }

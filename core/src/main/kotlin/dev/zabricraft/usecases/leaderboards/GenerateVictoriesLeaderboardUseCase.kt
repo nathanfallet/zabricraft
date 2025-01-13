@@ -9,9 +9,7 @@ class GenerateVictoriesLeaderboardUseCase(
 
     override val title = "Victories"
 
-    override fun invoke(input: Int): List<String> {
-        return repository.getTopVictories(input).map(ZabriPlayer::name)
-    }
+    override fun invoke(input: Int): List<String> = repository.getTopVictories(input).map(ZabriPlayer::name)
 
 }
 

@@ -1,0 +1,9 @@
+name: Replica
+author: Nathan Fallet
+main: dev.zabricraft.replica.Replica
+depend: [ Core ]
+version: 1.0.0
+api-version: 1.20
+commands:
+  replica:
+    description: Gestion du Replica

@@ -8,8 +8,6 @@ class GetCachedZabriPlayerUseCase(
     private val repository: IZabriPlayersRepository,
 ) : IGetCachedZabriPlayerUseCase {
 
-    override fun invoke(input: UUID): CachedPlayer {
-        return repository.getCached(input)
-    }
+    override fun invoke(input: UUID): CachedPlayer = repository.getCached(input)
 
 }
