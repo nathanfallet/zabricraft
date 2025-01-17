@@ -1,5 +1,6 @@
 package dev.zabricraft.usecases.games
 
+import dev.zabricraft.models.games.IGame
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.configuration.file.YamlConfiguration
@@ -10,9 +11,9 @@ class GetSignsUseCase(
     private val plugin: JavaPlugin,
 ) : IGetSignsUseCase {
 
-    override fun invoke(input1: String, input2: Int): List<Location> {
+    override fun invoke(input: IGame): List<Location> {
+        val path = input.name.lowercase().replace(" ", "_") + "." + "game" + input.id
         val signs = mutableListOf<Location>()
-        val path = input1.lowercase().replace(" ", "_") + "." + "game" + input2
         val config = YamlConfiguration.loadConfiguration(File(plugin.dataFolder, "signs.yml"))
         val data = config.getConfigurationSection(path) ?: return signs
         val iterator = data.getKeys(false).iterator()

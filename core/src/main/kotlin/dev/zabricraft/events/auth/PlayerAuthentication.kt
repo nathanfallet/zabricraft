@@ -15,15 +15,11 @@ class PlayerAuthentication(
 ) : Listener {
 
     private fun checkAuthenticated(player: Player, event: Cancellable) {
-        if (!getCachedZabriPlayerUseCase(player.uniqueId).authenticated) {
-            event.isCancelled = true
-        }
+        if (!getCachedZabriPlayerUseCase(player.uniqueId).authenticated) event.isCancelled = true
     }
 
     @EventHandler
-    fun onPlayerChat(event: AsyncPlayerChatEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerChat(event: AsyncPlayerChatEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
     fun onPlayerCommandPreprocess(event: PlayerCommandPreprocessEvent) {
@@ -33,24 +29,16 @@ class PlayerAuthentication(
     }
 
     @EventHandler
-    fun onPlayerMove(event: PlayerMoveEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerMove(event: PlayerMoveEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerInteract(event: PlayerInteractEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerInteract(event: PlayerInteractEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerInteractEntity(event: PlayerInteractEntityEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerInteractEntity(event: PlayerInteractEntityEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerInteractAtEntity(event: PlayerInteractAtEntityEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerInteractAtEntity(event: PlayerInteractAtEntityEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
     fun onEntityDamageByEntity(event: EntityDamageByEntityEvent) {
@@ -59,54 +47,34 @@ class PlayerAuthentication(
     }
 
     @EventHandler
-    fun onPlayerShear(event: PlayerShearEntityEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerShear(event: PlayerShearEntityEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerFish(event: PlayerFishEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerFish(event: PlayerFishEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerBedEnter(event: PlayerBedEnterEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerBedEnter(event: PlayerBedEnterEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerEditBook(event: PlayerEditBookEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerEditBook(event: PlayerEditBookEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onSignChange(event: SignChangeEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onSignChange(event: SignChangeEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerPickupItem(event: PlayerPickupItemEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerPickupItem(event: PlayerPickupItemEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerDropItem(event: PlayerDropItemEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerDropItem(event: PlayerDropItemEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerItemHeld(event: PlayerItemHeldEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerItemHeld(event: PlayerItemHeldEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
-    fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
-        checkAuthenticated(event.player, event)
-    }
+    fun onPlayerItemConsume(event: PlayerItemConsumeEvent) = checkAuthenticated(event.player, event)
 
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {

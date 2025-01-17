@@ -6,8 +6,6 @@ class SaveLeaderboardsUseCase(
     private val repository: ILeaderboardsRepository,
 ) : ISaveLeaderboardsUseCase {
 
-    override fun invoke() {
-        repository.save()
-    }
+    override fun invoke() = repository.save()
 
 }

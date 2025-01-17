@@ -7,8 +7,6 @@ class ListGameUseCase(
     private val repository: IGamesRepository,
 ) : IListGameUseCase {
 
-    override fun invoke(): List<IGame> {
-        return repository.list()
-    }
+    override fun invoke(): List<IGame> = repository.list()
 
 }

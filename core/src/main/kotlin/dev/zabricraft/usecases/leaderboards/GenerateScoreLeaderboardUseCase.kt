@@ -9,9 +9,7 @@ class GenerateScoreLeaderboardUseCase(
 
     override val title = "Score"
 
-    override fun invoke(input: Int): List<String> {
-        return repository.getTopScore(input).map(ZabriPlayer::name)
-    }
+    override fun invoke(input: Int): List<String> = repository.getTopScore(input).map(ZabriPlayer::name)
 
 }
 

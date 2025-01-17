@@ -7,10 +7,15 @@ import dev.zabricraft.usecases.messages.IGetMessageUseCase
 import org.bukkit.entity.Player
 
 class JoinGameUseCase(
+    private val listGameUseCase: IListGameUseCase,
     private val getMessageUseCase: IGetMessageUseCase,
 ) : IJoinGameUseCase {
 
     override fun invoke(input1: IGame, input2: Player, input3: ZabriPlayer) {
+        if (listGameUseCase().any { game -> game.allPlayers.any { it == input2.uniqueId } }) {
+            input2.sendMessage("§c" + getMessageUseCase("chat-already-game"))
+            return
+        }
         if (input1.state != GameState.WAITING && input1.state != GameState.START_COUNT) {
             input2.sendMessage("§c" + getMessageUseCase("chat-game-full"))
             return
