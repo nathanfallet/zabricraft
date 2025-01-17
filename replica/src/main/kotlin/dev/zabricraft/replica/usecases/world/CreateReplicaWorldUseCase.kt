@@ -1,13 +1,24 @@
-package dev.zabricraft.replica.models
+package dev.zabricraft.replica.usecases.world
 
 import dev.zabricraft.replica.Replica
-import org.bukkit.Material
-import org.bukkit.World
+import org.bukkit.*
 import org.bukkit.generator.BlockPopulator
 import org.bukkit.generator.ChunkGenerator
 import java.util.*
 
-object ReplicaGenerator : ChunkGenerator() {
+class CreateReplicaWorldUseCase : ICreateReplicaWorldUseCase, ChunkGenerator() {
+
+    override fun invoke() {
+        val worldCreator = WorldCreator(Replica.WORLD_NAME)
+        worldCreator.type(WorldType.FLAT)
+        worldCreator.generator(this)
+        worldCreator.createWorld()
+        val world = Bukkit.getWorld(Replica.WORLD_NAME)
+        world?.setSpawnLocation(-1000, 0, 0)
+        world?.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false)
+        world?.difficulty = Difficulty.PEACEFUL
+        world?.time = 0
+    }
 
     override fun getDefaultPopulators(world: World): List<BlockPopulator> = emptyList()
 

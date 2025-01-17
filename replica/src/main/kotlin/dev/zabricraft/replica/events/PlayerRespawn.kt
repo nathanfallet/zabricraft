@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerRespawnEvent
 
-object PlayerRespawn : Listener {
+class PlayerRespawn : Listener {
 
     @EventHandler
     fun onPlayerRespawn(e: PlayerRespawnEvent) {
@@ -19,7 +19,7 @@ object PlayerRespawn : Listener {
             it.id == zp.currentGame && it.state == GameState.IN_GAME
         } ?: return
         val location = Location(
-            Bukkit.getWorld("Replica"),
+            Bukkit.getWorld(Replica.WORLD_NAME),
             (4 + Replica.DISTANCE * 16 * (game.id - 1)).toDouble(),
             65.0,
             ((zp.plot - 1) * 32 + 9).toDouble()

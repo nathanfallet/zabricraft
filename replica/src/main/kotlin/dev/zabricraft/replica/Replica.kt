@@ -1,13 +1,14 @@
 package dev.zabricraft.replica
 
 import dev.zabricraft.replica.commands.ReplicaCommand
+import dev.zabricraft.replica.di.ReplicaKoin
 import dev.zabricraft.replica.events.*
 import dev.zabricraft.replica.models.Picture
 import dev.zabricraft.replica.models.ReplicaGame
-import dev.zabricraft.replica.models.ReplicaGenerator
 import dev.zabricraft.replica.models.ReplicaPlayer
+import dev.zabricraft.replica.usecases.world.ICreateReplicaWorldUseCase
 import dev.zabricraft.usecases.games.IAddGameUseCase
-import org.bukkit.*
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import org.koin.core.context.GlobalContext.get
@@ -17,6 +18,7 @@ class Replica : JavaPlugin() {
 
     companion object {
 
+        const val WORLD_NAME = "Replica"
         const val DISTANCE = 5
         const val SCORE = 10
         const val MONEY = 10
@@ -36,15 +38,10 @@ class Replica : JavaPlugin() {
         saveDefaultConfig()
         reloadConfig()
 
-        val worldCreator = WorldCreator("Replica")
-        worldCreator.type(WorldType.FLAT)
-        worldCreator.generator(ReplicaGenerator)
-        worldCreator.createWorld()
-        val world = Bukkit.getWorld("Replica")
-        world?.setSpawnLocation(-1000, 0, 0)
-        world?.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false)
-        world?.difficulty = Difficulty.PEACEFUL
-        world?.time = 0
+        ReplicaKoin.start(this)
+
+        val createReplicaWorldUseCase = get().get<ICreateReplicaWorldUseCase>()
+        createReplicaWorldUseCase()
 
         Bukkit.getOnlinePlayers().forEach {
             initPlayer(it)
@@ -62,8 +59,9 @@ class Replica : JavaPlugin() {
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
+        val addGameUseCase = get().get<IAddGameUseCase>()
         games.forEach { game ->
-            get().get<IAddGameUseCase>()(game)
+            addGameUseCase(game)
             game.loadPlots()
         }
 
@@ -87,15 +85,14 @@ class Replica : JavaPlugin() {
         }
 
         val pm = Bukkit.getPluginManager()
-        pm.registerEvents(PlayerJoin, this)
-        pm.registerEvents(PlayerQuit, this)
-        pm.registerEvents(PlayerRespawn, this)
-        pm.registerEvents(EntityDamage, this)
-        pm.registerEvents(BlockPlace, this)
-        pm.registerEvents(BlockBreak, this)
-        pm.registerEvents(PlayerCommandPreprocess, this)
+        pm.registerEvents(get().get<BlockUpdate>(), this)
+        pm.registerEvents(get().get<EntityDamage>(), this)
+        pm.registerEvents(get().get<PlayerCommandPreprocess>(), this)
+        pm.registerEvents(get().get<PlayerJoin>(), this)
+        pm.registerEvents(get().get<PlayerQuit>(), this)
+        pm.registerEvents(get().get<PlayerRespawn>(), this)
 
-        getCommand("replica")?.setExecutor(ReplicaCommand)
+        getCommand("replica")?.setExecutor(get().get<ReplicaCommand>())
 
         // TODO: Leaderboard/scoreboard generator
     }

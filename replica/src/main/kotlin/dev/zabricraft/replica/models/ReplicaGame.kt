@@ -5,6 +5,7 @@ import dev.zabricraft.models.games.GameState
 import dev.zabricraft.models.games.IGame
 import dev.zabricraft.models.players.ZabriPlayer
 import dev.zabricraft.replica.Replica
+import dev.zabricraft.replica.usecases.players.IResetReplicaPlayerUseCase
 import dev.zabricraft.usecases.messages.IGetMessageUseCase
 import dev.zabricraft.usecases.spawn.IGetSetSpawnUseCase
 import org.bukkit.Bukkit
@@ -116,15 +117,7 @@ class ReplicaGame(
                 if (player != null && zp != null) Pair(player, zp)
                 else null
             }.forEach { pair ->
-                // TODO: Extract and merge (similar to ReplicaCommand leave)
-                pair.second.playing = false
-                pair.second.finished = false
-                pair.second.plot = 0
-                pair.second.currentGame = 0
-                pair.first.teleport(get().get<IGetSetSpawnUseCase>()())
-                pair.first.gameMode = GameMode.SURVIVAL
-                pair.first.inventory.clear()
-                pair.first.updateInventory()
+                get().get<IResetReplicaPlayerUseCase>()(pair.first, pair.second)
             }
             state = GameState.WAITING
         }, 100)
@@ -173,7 +166,7 @@ class ReplicaGame(
             for (x in 5..12) {
                 for (z in 5..12) {
                     Location(
-                        Bukkit.getWorld("Replica"),
+                        Bukkit.getWorld(Replica.WORLD_NAME),
                         (x + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                         64.0,
                         (z + i * 32).toDouble()
@@ -183,7 +176,7 @@ class ReplicaGame(
             for (y in 0..7) {
                 for (z in 5..12) {
                     Location(
-                        Bukkit.getWorld("Replica"),
+                        Bukkit.getWorld(Replica.WORLD_NAME),
                         (14 + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                         (66 + y).toDouble(),
                         (z + i * 32).toDouble()
@@ -198,7 +191,7 @@ class ReplicaGame(
         for (x in 5..12) {
             for (z in 5..12) {
                 Location(
-                    Bukkit.getWorld("Replica"),
+                    Bukkit.getWorld(Replica.WORLD_NAME),
                     (x + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                     64.0,
                     (z + column * 32).toDouble()
@@ -212,7 +205,7 @@ class ReplicaGame(
         for (y in 0..7) {
             for (z in 5..12) {
                 val b = Location(
-                    Bukkit.getWorld("Replica"),
+                    Bukkit.getWorld(Replica.WORLD_NAME),
                     (14 + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                     (73 - y).toDouble(),
                     (z + column * 32).toDouble()
@@ -227,13 +220,13 @@ class ReplicaGame(
         for (x in 0..7) {
             for (y in 0..7) {
                 val b = Location(
-                    Bukkit.getWorld("Replica"),
+                    Bukkit.getWorld(Replica.WORLD_NAME),
                     (14 + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                     (73 - y).toDouble(),
                     (12 - x + column * 32).toDouble()
                 ).block
                 val b2 = Location(
-                    Bukkit.getWorld("Replica"),
+                    Bukkit.getWorld(Replica.WORLD_NAME),
                     (12 - y + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                     64.0,
                     (12 - x + column * 32).toDouble()
@@ -254,7 +247,7 @@ class ReplicaGame(
             val player = Bukkit.getPlayer(uuid) ?: return@forEach
             val zp = Replica.instance?.getPlayer(uuid) ?: return@forEach
             val l = Location(
-                Bukkit.getWorld("Replica"),
+                Bukkit.getWorld(Replica.WORLD_NAME),
                 (4 + Replica.DISTANCE * 16 * (id - 1)).toDouble(),
                 65.0,
                 ((plot - 1) * 32 + 9).toDouble()

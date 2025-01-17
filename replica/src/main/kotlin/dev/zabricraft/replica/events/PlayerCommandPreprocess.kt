@@ -6,9 +6,10 @@ import dev.zabricraft.usecases.messages.IGetMessageUseCase
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
-import org.koin.core.context.GlobalContext.get
 
-object PlayerCommandPreprocess : Listener {
+class PlayerCommandPreprocess(
+    private val getMessageUseCase: IGetMessageUseCase,
+) : Listener {
 
     @EventHandler
     fun onPlayerCommandPreprocess(e: PlayerCommandPreprocessEvent) {
@@ -20,7 +21,7 @@ object PlayerCommandPreprocess : Listener {
         } ?: return
         if (!e.message.equals("/replica leave", ignoreCase = true)) {
             e.isCancelled = true
-            e.player.sendMessage("§c" + get().get<IGetMessageUseCase>()("cmd-error-only-leave"))
+            e.player.sendMessage("§c" + getMessageUseCase("cmd-error-only-leave"))
         }
     }
 
