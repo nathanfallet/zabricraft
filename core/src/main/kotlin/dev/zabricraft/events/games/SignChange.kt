@@ -18,7 +18,7 @@ class SignChange(
             return
         }
         val name = e.getLine(0)?.let { it.substring(1, it.length - 1) }
-        val id = e.getLine(1)?.toInt()
+        val id = e.getLine(1)?.toIntOrNull()
         val game = listGameUseCase().firstOrNull {
             it.name.equals(name, ignoreCase = true) && it.id == id
         } ?: run {
