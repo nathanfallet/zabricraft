@@ -1,8 +1,0 @@
-name: Ktor
-author: Nathan Fallet
-main: dev.zabricraft.Ktor
-load: STARTUP
-loadbefore:
-  - Core
-version: 1.0.0
-api-version: 1.20

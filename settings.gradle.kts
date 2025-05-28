@@ -81,11 +81,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "zabricraft"
-include(":kaccelero")
-include(":mysql")
-include(":h2")
-include(":koin")
-include(":ktor")
 include(":runtime")
 
 include(":core")
+include(":replica")

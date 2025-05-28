@@ -9,8 +9,6 @@ class GenerateMoneyLeaderboardUseCase(
 
     override val title = "Money"
 
-    override fun invoke(input: Int): List<String> {
-        return repository.getTopMoney(input).map(ZabriPlayer::name)
-    }
+    override fun invoke(input: Int): List<String> = repository.getTopMoney(input).map(ZabriPlayer::name)
 
 }

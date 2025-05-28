@@ -39,11 +39,11 @@ kotlin {
 
 dependencies {
     compileOnly(libs.spigot)
-    api(project(":kaccelero"))
-    api(project(":mysql"))
-    api(project(":h2"))
-    api(project(":koin"))
-    api(project(":ktor"))
+    api(libs.bundles.kaccelero)
+    api(libs.mysql)
+    api(libs.h2)
+    api(libs.koin.core)
+    api(libs.bundles.ktor.client.api)
 }
 
 tasks.jar {

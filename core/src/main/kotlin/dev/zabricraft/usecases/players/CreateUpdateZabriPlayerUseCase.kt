@@ -9,11 +9,10 @@ class CreateUpdateZabriPlayerUseCase(
     private val repository: IZabriPlayersRepository,
 ) : ICreateUpdateZabriPlayerUseCase {
 
-    override fun invoke(input: Player): ZabriPlayer? {
-        return repository.get(input.uniqueId)?.let {
+    override fun invoke(input: Player): ZabriPlayer? =
+        repository.get(input.uniqueId)?.let {
             repository.update(it.id, UpdateZabriPlayerPayload(player = input))
             it
         } ?: repository.create(input)
-    }
 
 }

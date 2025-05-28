@@ -6,8 +6,6 @@ class ListGenerateLeaderboardUseCase(
     private val repository: IGenerateLeaderboardUseCasesRepository,
 ) : IListGenerateLeaderboardUseCase {
 
-    override fun invoke(): Map<String, IGenerateLeaderboardUseCase> {
-        return repository.list()
-    }
+    override fun invoke(): Map<String, IGenerateLeaderboardUseCase> = repository.list()
 
 }

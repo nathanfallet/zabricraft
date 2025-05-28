@@ -15,12 +15,12 @@ class PlayerJoin(
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         createUpdateZabriPlayerUseCase(event.player)
+
         event.joinMessage =
             ChatColor.GRAY.toString() + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " + ChatColor.GOLD + event.player.name
         event.player.sendMessage(ChatColor.YELLOW.toString() + "Bienvenue sur le serveur !")
-        if (!event.player.hasPlayedBefore()) {
-            event.player.teleport(getSetSpawnUseCase())
-        }
+
+        if (!event.player.hasPlayedBefore()) event.player.teleport(getSetSpawnUseCase())
     }
 
 }

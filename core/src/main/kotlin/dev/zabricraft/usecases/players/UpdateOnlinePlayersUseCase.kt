@@ -1,5 +1,7 @@
 package dev.zabricraft.usecases.players
 
+import dev.kaccelero.commons.repositories.IListModelUseCase
+import dev.zabricraft.models.players.ZabriPlayer
 import dev.zabricraft.usecases.scoreboards.IListGenerateScoreboardUseCase
 import kotlinx.datetime.Clock
 import org.bukkit.Bukkit
@@ -10,7 +12,7 @@ import kotlin.time.toDuration
 
 class UpdateOnlinePlayersUseCase(
     private val plugin: JavaPlugin,
-    private val getZabriPlayersUseCase: IGetZabriPlayersUseCase,
+    private val getZabriPlayersUseCase: IListModelUseCase<ZabriPlayer>,
     private val listGenerateScoreboardUseCase: IListGenerateScoreboardUseCase,
 ) : IUpdateOnlinePlayersUseCase {
 

@@ -6,16 +6,10 @@ class GamesRepository : IGamesRepository {
 
     private val games = mutableListOf<IGame>()
 
-    override fun list(): List<IGame> {
-        return games
-    }
+    override fun list(): List<IGame> = games
 
-    override fun add(game: IGame) {
-        games.add(game)
-    }
+    override fun add(game: IGame) = games.add(game).let {}
 
-    override fun clear() {
-        games.clear()
-    }
+    override fun clear() = games.clear()
 
 }

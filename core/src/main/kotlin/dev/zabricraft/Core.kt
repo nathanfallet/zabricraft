@@ -17,6 +17,7 @@ import dev.zabricraft.events.rules.WorldProtection
 import dev.zabricraft.models.leaderboards.Leaderboard
 import dev.zabricraft.usecases.games.IClearGamesUseCase
 import dev.zabricraft.usecases.games.IListGameUseCase
+import dev.zabricraft.usecases.games.ISaveGamesUseCase
 import dev.zabricraft.usecases.games.IUpdateGameUseCase
 import dev.zabricraft.usecases.leaderboards.*
 import dev.zabricraft.usecases.messages.ISetMessageUseCase
@@ -50,9 +51,7 @@ class Core : JavaPlugin() {
 
         val setMessageUseCase = get().get<ISetMessageUseCase>()
         val messagesFile = File(dataFolder, "messages.yml")
-        if (!messagesFile.exists()) {
-            saveResource("messages.yml", false)
-        }
+        if (!messagesFile.exists()) saveResource("messages.yml", false)
         val messages = YamlConfiguration.loadConfiguration(messagesFile)
         messages.getKeys(false).forEach { id ->
             setMessageUseCase(id, messages.getString(id) ?: "")
@@ -96,6 +95,7 @@ class Core : JavaPlugin() {
         val updateGameUseCase = get().get<IUpdateGameUseCase>()
         val updateOnlinePlayersUseCase = get().get<IUpdateOnlinePlayersUseCase>()
         val listLeaderboardUseCase = get().get<IListModelUseCase<Leaderboard>>(named<Leaderboard>())
+        val saveGamesUseCase = get().get<ISaveGamesUseCase>()
         val saveLeaderboardsUseCase = get().get<ISaveLeaderboardsUseCase>()
         val updateLeaderboardUseCase = get().get<IUpdateLeaderboardUseCase>()
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, {
@@ -104,12 +104,15 @@ class Core : JavaPlugin() {
             listLeaderboardUseCase().forEach { updateLeaderboardUseCase(it) }
         }, 0, 20)
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, {
+            saveGamesUseCase()
             saveLeaderboardsUseCase()
         }, 6000, 6000)
     }
 
     override fun onDisable() {
+        val saveGamesUseCase = get().get<ISaveGamesUseCase>()
         val clearGameUseCase = get().get<IClearGamesUseCase>()
+        saveGamesUseCase()
         clearGameUseCase()
 
         val clearZabriPlayersCacheUseCase = get().get<IClearZabriPlayersCacheUseCase>()

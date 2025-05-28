@@ -6,8 +6,6 @@ class ClearGenerateLeaderboardUseCase(
     private val repository: IGenerateLeaderboardUseCasesRepository,
 ) : IClearGenerateLeaderboardUseCase {
 
-    override fun invoke() {
-        repository.clear()
-    }
+    override fun invoke() = repository.clear()
 
 }

@@ -12,9 +12,12 @@ class AddGameUseCaseTest {
     @Test
     fun testInvoke() {
         val repository = mockk<IGamesRepository>()
-        val useCase = AddGameUseCase(repository)
+        val getSignsUseCase = mockk<IGetSignsUseCase>()
+        val useCase = AddGameUseCase(repository, getSignsUseCase)
         val game = mockk<IGame>()
         every { repository.add(game) } returns Unit
+        every { getSignsUseCase(game) } returns emptyList()
+        every { game.signs } returns mutableListOf()
         useCase(game)
         verify { repository.add(game) }
     }
